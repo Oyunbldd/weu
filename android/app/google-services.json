@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "15738567745",
+    "project_id": "weeu-36e39",
+    "storage_bucket": "weeu-36e39.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:15738567745:android:c05cbdb6bfb276b787dac0",
+        "android_client_info": {
+          "package_name": "com.weu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "15738567745-vrhkn250lubshu6cg1vieiplfdfvihpi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9b-FbkeqFjKqj86EXbfjfHk8xRH8MG0M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "15738567745-vrhkn250lubshu6cg1vieiplfdfvihpi.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "15738567745-9q42k34h1464tsrf64jbfg7t273v8pss.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.weu"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
