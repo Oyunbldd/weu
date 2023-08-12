@@ -13,9 +13,23 @@ appRoutes() => [
         name: '/emergency',
         page: () => const EmergencyScreen(),
         middlewares: [MyMiddelware()],
-        transition: Transition.rightToLeftWithFade,
-        transitionDuration: Duration(milliseconds: 500),
+        transition: Transition.native,
+        transitionDuration: const Duration(milliseconds: 500),
       ),
+      // GetPage(
+      //   name: '/splash',
+      //   page: () => const SplashScreen(),
+      //   middlewares: [MyMiddelware()],
+      //   transition: Transition.native,
+      //   transitionDuration: const Duration(milliseconds: 500),
+      // ),
+      // GetPage(
+      //   name: '/login',
+      //   page: () => const LoginScreen(),
+      //   middlewares: [MyMiddelware()],
+      //   transition: Transition.native,
+      //   transitionDuration: const Duration(milliseconds: 500),
+      // ),
     ];
 
 class MyMiddelware extends GetMiddleware {
