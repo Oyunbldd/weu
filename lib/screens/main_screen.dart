@@ -22,7 +22,11 @@ class _MainScreenState extends State<MainScreen> {
       debugShowCheckedModeBanner: false,
       // theme: ThemeData(),
       home: Scaffold(
-        body: Center(child: body[_currentIndex]),
+        body: SafeArea(
+          child: Center(
+            child: body[_currentIndex],
+          ),
+        ),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _currentIndex,
           onTap: (int index) {

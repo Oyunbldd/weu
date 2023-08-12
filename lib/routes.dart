@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:weu/screens/main_screen.dart';
+import 'package:weu/screens/emergency_screen.dart';
 
 appRoutes() => [
       GetPage(
@@ -8,13 +9,13 @@ appRoutes() => [
         transition: Transition.leftToRightWithFade,
         // transitionDuration: Duration(milliseconds: 500),
       ),
-      // GetPage(
-      //   name: '/emergency',
-      //   page: () => EmergencyScreen(),
-      //   middlewares: [MyMiddelware()],
-      //   transition: Transition.leftToRightWithFade,
-      //   transitionDuration: Duration(milliseconds: 500),
-      // ),
+      GetPage(
+        name: '/emergency',
+        page: () => const EmergencyScreen(),
+        middlewares: [MyMiddelware()],
+        transition: Transition.rightToLeftWithFade,
+        transitionDuration: Duration(milliseconds: 500),
+      ),
     ];
 
 class MyMiddelware extends GetMiddleware {
