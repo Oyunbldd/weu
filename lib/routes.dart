@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:weu/screens/main_screen.dart';
+import 'package:weu/screens/emergency_screen.dart';
 
 appRoutes() => [
       GetPage(
@@ -8,12 +9,26 @@ appRoutes() => [
         transition: Transition.leftToRightWithFade,
         // transitionDuration: Duration(milliseconds: 500),
       ),
+      GetPage(
+        name: '/emergency',
+        page: () => const EmergencyScreen(),
+        middlewares: [MyMiddelware()],
+        transition: Transition.native,
+        transitionDuration: const Duration(milliseconds: 500),
+      ),
       // GetPage(
-      //   name: '/emergency',
-      //   page: () => EmergencyScreen(),
+      //   name: '/splash',
+      //   page: () => const SplashScreen(),
       //   middlewares: [MyMiddelware()],
-      //   transition: Transition.leftToRightWithFade,
-      //   transitionDuration: Duration(milliseconds: 500),
+      //   transition: Transition.native,
+      //   transitionDuration: const Duration(milliseconds: 500),
+      // ),
+      // GetPage(
+      //   name: '/login',
+      //   page: () => const LoginScreen(),
+      //   middlewares: [MyMiddelware()],
+      //   transition: Transition.native,
+      //   transitionDuration: const Duration(milliseconds: 500),
       // ),
     ];
 
