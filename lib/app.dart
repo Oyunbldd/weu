@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -14,6 +15,7 @@ class _MyAppState extends State<MyApp> {
   double _opacity = 0.1;
   double _opacity1 = 0.2;
   double _opacity2 = 0.3;
+  bool _showAnimation = false;
 
   @override
   Widget build(BuildContext context) {
@@ -26,33 +28,51 @@ class _MyAppState extends State<MyApp> {
             child: Stack(
               alignment: Alignment.center,
               children: [
-                AnimatedContainer(
-                  duration: const Duration(milliseconds: 500),
-                  curve: Curves.easeIn,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(175),
-                    color: Colors.red.withOpacity(_opacity),
-                  ),
-                  child: const SizedBox(width: 350, height: 350),
-                ),
-                AnimatedContainer(
-                  duration: const Duration(milliseconds: 800),
-                  curve: Curves.easeIn,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(150),
-                    color: Colors.red.withOpacity(_opacity1),
-                  ),
-                  child: const SizedBox(width: 300, height: 300),
-                ),
-                AnimatedContainer(
-                  duration: const Duration(milliseconds: 1000),
-                  curve: Curves.easeIn,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(150),
-                    color: Colors.red.withOpacity(_opacity2),
-                  ),
-                  child: const SizedBox(width: 250, height: 250),
-                ),
+                _showAnimation
+                    ? Container(
+                        width: 350,
+                        height: 350,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(175),
+                          color: Colors.red.withOpacity(0.2),
+                        ),
+                      )
+                        .animate(
+                          delay: 700.ms,
+                          onPlay: (controller) => controller.repeat(),
+                        )
+                        .fadeOut(delay: 1300.ms)
+                    : SizedBox(),
+                _showAnimation
+                    ? Container(
+                        width: 300,
+                        height: 300,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(150),
+                          color: Colors.red.withOpacity(0.1),
+                        ),
+                      )
+                        .animate(
+                          delay: 600.ms,
+                          onPlay: (controller) => controller.repeat(),
+                        )
+                        .fadeOut(delay: 1200.ms)
+                    : SizedBox(),
+                _showAnimation
+                    ? Container(
+                        width: 250,
+                        height: 250,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(125),
+                          color: Colors.red.withOpacity(0.3),
+                        ),
+                      )
+                        .animate(
+                          delay: 500.ms,
+                          onPlay: (controller) => controller.repeat(),
+                        )
+                        .fadeOut(delay: 1000.ms)
+                    : SizedBox(),
                 SizedBox(
                   width: 200,
                   height: 200,
@@ -63,26 +83,21 @@ class _MyAppState extends State<MyApp> {
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(100.0),
-                          // side: const BorderSide(color: Colors.red),
                         ),
                       ),
                     ),
                     onLongPress: () async {
-                      Timer(const Duration(seconds: (3)), () {
+                      Timer(const Duration(seconds: (2)), () {
                         setState(() {
-                          if (_opacity == 0) {
-                            _opacity = 0.1;
-                            _opacity1 = 0.2;
-                            _opacity2 = 0.3;
-                          } else {
-                            _opacity = 0;
-                            _opacity1 = 0;
-                            _opacity2 = 0;
-                          }
+                          _showAnimation = true;
                         });
                       });
                     },
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        if (_showAnimation) _showAnimation = false;
+                      });
+                    },
                     child: const Text(
                       'HELP ME!',
                       style: TextStyle(
