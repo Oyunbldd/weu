@@ -2,13 +2,14 @@ import 'package:get/get.dart';
 import 'package:weu/screens/main_screen.dart';
 import 'package:weu/screens/emergency_screen.dart';
 import 'package:weu/screens/permission_screen.dart';
+import 'package:weu/screens/splash_screen.dart';
 
 appRoutes() => [
       GetPage(
         name: '/mainScreen',
         page: () => const MainScreen(),
-        transition: Transition.leftToRightWithFade,
-        // transitionDuration: Duration(milliseconds: 500),
+        transition: Transition.rightToLeftWithFade,
+        transitionDuration: const Duration(milliseconds: 800),
       ),
       GetPage(
         name: '/emergencyScreen',
@@ -17,13 +18,13 @@ appRoutes() => [
         transition: Transition.native,
         transitionDuration: const Duration(milliseconds: 500),
       ),
-      // GetPage(
-      //   name: '/splash',
-      //   page: () => const SplashScreen(),
-      //   middlewares: [MyMiddelware()],
-      //   transition: Transition.native,
-      //   transitionDuration: const Duration(milliseconds: 500),
-      // ),
+      GetPage(
+        name: '/splashScreen',
+        page: () => const SplashScreen(),
+        middlewares: [MyMiddelware()],
+        transition: Transition.leftToRightWithFade,
+        transitionDuration: const Duration(milliseconds: 800),
+      ),
       GetPage(
         name: '/permissionScreen',
         page: () => const PermissionScreen(),

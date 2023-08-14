@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
-
-//Ene screen deer uuchlult orno
-//Zuvun location permission ene hesegt avna
-//This screen called one time.
-//locale storage deer hadgalah umnun neesen eshiig
+import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class PermissionScreen extends StatelessWidget {
   const PermissionScreen({super.key});
@@ -163,7 +159,12 @@ class PermissionScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  onPressed: () async {},
+                  onPressed: () async {
+                    if (await Permission.location.isDenied) {
+                      await Permission.location.request();
+                    }
+                    Get.toNamed('/mainScreen');
+                  },
                 ),
               ),
             ],
