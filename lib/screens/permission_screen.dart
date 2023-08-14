@@ -1,14 +1,16 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:location/location.dart';
+import 'package:geolocator/geolocator.dart';
+
+//Ene screen deer uuchlult orno
+//Zuvun location permission ene hesegt avna
+//This screen called one time.
+//locale storage deer hadgalah umnun neesen eshiig
 
 class PermissionScreen extends StatelessWidget {
   const PermissionScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    Location location = new Location();
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -161,10 +163,7 @@ class PermissionScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  onPressed: () async {
-                    await location.getLocation();
-                    // await location.serviceEnabled();
-                  },
+                  onPressed: () async {},
                 ),
               ),
             ],
