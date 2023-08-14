@@ -18,7 +18,7 @@ class _EmergencyScreenState extends State<EmergencyScreen> {
               height: 250,
               width: double.infinity,
               padding: const EdgeInsets.fromLTRB(25, 75, 0, 10),
-              color: Color(0xFFEC5034).withOpacity(0.8),
+              color: const Color(0xFFEC5034).withOpacity(0.8),
               child: const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

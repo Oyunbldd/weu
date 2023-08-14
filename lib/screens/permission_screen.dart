@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PermissionScreen extends StatelessWidget {
   const PermissionScreen({super.key});
@@ -160,9 +161,11 @@ class PermissionScreen extends StatelessWidget {
                     ),
                   ),
                   onPressed: () async {
-                    if (await Permission.location.isDenied) {
-                      await Permission.location.request();
-                    }
+                    // await Geolocator.checkPermission();
+                    await Geolocator.requestPermission();
+                    final SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    await prefs.setBool('permissionScreen', false);
                     Get.toNamed('/mainScreen');
                   },
                 ),

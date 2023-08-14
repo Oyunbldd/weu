@@ -18,9 +18,10 @@ class _SplashScreenState extends State<SplashScreen> {
 
   _navigationtoNextScreen() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final bool permissionScreen = prefs.getBool('permissionScreen') ?? false;
-    print(permissionScreen);
-    Get.toNamed(!permissionScreen ? '/mainScreen' : '/splashScreen');
+    final bool? permissionScreen = prefs.getBool('permissionScreen');
+    await Future.delayed(const Duration(seconds: 1));
+    Get.toNamed(permissionScreen == null ? '/permissionScreen' : '/mainScreen');
+    // Get.toNamed('/mainScreen');
   }
 
   Widget build(BuildContext context) {

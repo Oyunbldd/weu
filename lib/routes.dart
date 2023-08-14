@@ -8,8 +8,8 @@ appRoutes() => [
       GetPage(
         name: '/mainScreen',
         page: () => const MainScreen(),
-        transition: Transition.rightToLeftWithFade,
-        transitionDuration: const Duration(milliseconds: 800),
+        transition: Transition.rightToLeft,
+        // transitionDuration: const Duration(milliseconds: 800),
       ),
       GetPage(
         name: '/emergencyScreen',
@@ -22,15 +22,15 @@ appRoutes() => [
         name: '/splashScreen',
         page: () => const SplashScreen(),
         middlewares: [MyMiddelware()],
-        transition: Transition.leftToRightWithFade,
-        transitionDuration: const Duration(milliseconds: 800),
+        transition: Transition.rightToLeft,
+        // transitionDuration: const Duration(milliseconds: 500),
       ),
       GetPage(
         name: '/permissionScreen',
         page: () => const PermissionScreen(),
         middlewares: [MyMiddelware()],
         transition: Transition.native,
-        transitionDuration: const Duration(milliseconds: 500),
+        transitionDuration: const Duration(milliseconds: 1000),
       ),
       // GetPage(
       //   name: '/login',
