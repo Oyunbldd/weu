@@ -3,6 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
+// import 'package:geolocator/geolocator.dart';
+
+//Using geolocator
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -103,7 +106,7 @@ class _HomeViewState extends State<HomeView> {
                       setState(() {
                         _showAnimation = true;
                       });
-                      Get.toNamed('/emergency');
+                      Get.toNamed('/emergencyScreen');
                     });
                   },
                   onPressed: () {
