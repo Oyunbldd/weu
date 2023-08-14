@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'WeU',
-      initialRoute: '/permissionScreen',
+      initialRoute: '/mainScreen',
       getPages: appRoutes(),
     );
   }

@@ -103,7 +103,7 @@ class _HomeViewState extends State<HomeView> {
                       setState(() {
                         _showAnimation = true;
                       });
-                      Get.toNamed('/emergency');
+                      Get.toNamed('/emergencyScreen');
                     });
                   },
                   onPressed: () {
