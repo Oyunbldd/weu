@@ -27,7 +27,7 @@ class _HomeViewState extends State<HomeView> {
   bool _showAnimation = false;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  Future<Position> _determinePosition() async {
+  Future<Position?> _determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
 
@@ -40,14 +40,20 @@ class _HomeViewState extends State<HomeView> {
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
+        await Geolocator.openAppSettings();
+        // return Future.error('Location permissions are denied');
       }
     }
 
     if (permission == LocationPermission.deniedForever) {
-      // Permissions are denied forever, handle appropriately.
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
+      return null;
+      // await Geolocator.openAppSettings();
+      // Check permission
+      // if (permission == LocationPermission.denied ||
+      //     permission == LocationPermission.deniedForever) {
+      //   return Future.error(
+      //       'Location permissions are permanently denied, we cannot request permissions.');
+      // }
     }
 
     return await Geolocator.getCurrentPosition(
@@ -141,27 +147,29 @@ class _HomeViewState extends State<HomeView> {
                     ),
                   ),
                   onLongPress: () async {
+                    Position? location = await _determinePosition();
                     setState(() {
                       _showAnimation = true;
                     });
-                    Position location = await _determinePosition();
-                    final data = {
-                      "longitude": location.longitude,
-                      "latitue": location.latitude
-                    };
-                    firestore
-                        .collection('locations')
-                        .add(data)
-                        .then((value) => {
-                              print(value),
-                            });
-
-                    // Timer(const Duration(seconds: (2)), () {
-                    //   setState(() {
-                    //     _showAnimation = true;
-                    //   });
-                    // Get.toNamed('/emergencyScreen');
-                    // });
+                    if (location != null) {
+                      final data = {
+                        "longitude": location.longitude,
+                        "latitue": location.latitude
+                      };
+                      firestore
+                          .collection('locations')
+                          .add(data)
+                          .then((value) => {
+                                Get.toNamed('/emergencyScreen'),
+                                setState(() {
+                                  _showAnimation = false;
+                                })
+                              });
+                    } else {
+                      setState(() {
+                        _showAnimation = false;
+                      });
+                    }
                   },
                   onPressed: () {
                     setState(() {
