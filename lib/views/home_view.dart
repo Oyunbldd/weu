@@ -160,6 +160,9 @@ class _HomeViewState extends State<HomeView> {
                           .collection('locations')
                           .add(data)
                           .then((value) => {
+                                // Timer(const Duration(seconds: (2)), () {
+                                //   Get.toNamed('/emergencyScreen');
+                                // }),
                                 Get.toNamed('/emergencyScreen'),
                                 setState(() {
                                   _showAnimation = false;
