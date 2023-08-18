@@ -9,16 +9,15 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  late TextEditingController _phoneController;
+  final TextEditingController _phoneController = TextEditingController();
   bool isButtonActive = false;
 
   @override
   void initState() {
     super.initState();
-    _phoneController = TextEditingController();
+
     _phoneController.addListener(() {
       bool buttonType = _phoneController.text.length > 8;
-
       setState(() {
         isButtonActive = buttonType;
       });
@@ -70,9 +69,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     child: TextField(
                       controller: _phoneController,
-                      onChanged: (String text) {
-                        _phoneController.text = text;
-                      },
                       keyboardType: TextInputType.phone,
                       decoration: const InputDecoration(
                         border: InputBorder.none,
