@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
+import 'package:weu/screens/login_screen.dart';
 import 'package:weu/screens/main_screen.dart';
 import 'package:weu/screens/emergency_screen.dart';
+import 'package:weu/screens/otp_screen.dart';
 import 'package:weu/screens/permission_screen.dart';
 import 'package:weu/screens/splash_screen.dart';
 
@@ -32,13 +34,20 @@ appRoutes() => [
         transition: Transition.native,
         transitionDuration: const Duration(milliseconds: 1000),
       ),
-      // GetPage(
-      //   name: '/login',
-      //   page: () => const LoginScreen(),
-      //   middlewares: [MyMiddelware()],
-      //   transition: Transition.native,
-      //   transitionDuration: const Duration(milliseconds: 500),
-      // ),
+      GetPage(
+        name: '/loginScreen',
+        page: () => const LoginScreen(),
+        middlewares: [MyMiddelware()],
+        transition: Transition.native,
+        // transitionDuration: const Duration(milliseconds: 500),
+      ),
+      GetPage(
+        name: '/otpScreen',
+        page: () => const OtpScreen(),
+        middlewares: [MyMiddelware()],
+        transition: Transition.native,
+        // transitionDuration: const Duration(milliseconds: 500),
+      ),
     ];
 
 class MyMiddelware extends GetMiddleware {

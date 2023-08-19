@@ -20,7 +20,8 @@ class _SplashScreenState extends State<SplashScreen> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final bool? permissionScreen = prefs.getBool('permissionScreen');
     await Future.delayed(const Duration(seconds: 1));
-    Get.toNamed(permissionScreen == null ? '/permissionScreen' : '/mainScreen');
+    // Get.toNamed(permissionScreen == null ? '/permissionScreen' : '/mainScreen');
+    Get.toNamed('/loginScreen');
     // Get.toNamed('/mainScreen');
   }
 
