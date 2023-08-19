@@ -3,9 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>15738567745-p1jdcqhvn94jacub4ds0skv1if31en16.apps.googleusercontent.com</string>
+	<string>15738567745-jnkfhhm06nla5da2vaf4kagpupghs3ib.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.15738567745-p1jdcqhvn94jacub4ds0skv1if31en16</string>
+	<string>com.googleusercontent.apps.15738567745-jnkfhhm06nla5da2vaf4kagpupghs3ib</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>15738567745-q8ed68oqhm2tica0ri52t5nt7sac572b.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyBxz1AYyRNNrUfW5dyXNgSgXLLnKSjrXK0</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.weu</string>
+	<string>com.weeu</string>
 	<key>PROJECT_ID</key>
 	<string>weeu-36e39</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:15738567745:ios:b021256a98db90a487dac0</string>
+	<string>1:15738567745:ios:bc15cac27d0ba53c87dac0</string>
 </dict>
 </plist>
