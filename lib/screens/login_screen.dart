@@ -14,6 +14,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _phoneController = TextEditingController();
   CountryCode _countryCode = CountryCode(dialCode: '+976');
   bool isButtonActive = false;
+  String verify = "";
 
   @override
   void initState() {
@@ -36,21 +37,31 @@ class _LoginScreenState extends State<LoginScreen> {
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            // mainAxisSize: MainAxisSize.max,
             children: [
               const Text(
                 'Таны дугаар хэд вэ?',
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 40),
-              const Text('Та доор утасны дугаараа оруулна уу.'),
               const SizedBox(height: 15),
+              const Text(
+                'Та доор утасны дугаараа оруулна уу.',
+                style: TextStyle(
+                  color: Colors.grey,
+                ),
+              ),
+              const SizedBox(height: 40),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
                     width: MediaQuery.of(context).size.width * 0.25,
                     decoration: BoxDecoration(
-                      border: Border.all(width: 1.25, color: Colors.grey),
+                      border: Border.all(
+                        width: 1.25,
+                        color: Colors.blue.withOpacity(0.5),
+                      ),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: CountryCodePicker(
@@ -71,7 +82,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     width: MediaQuery.of(context).size.width * 0.6,
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     decoration: BoxDecoration(
-                      border: Border.all(width: 1.25, color: Colors.grey),
+                      border: Border.all(
+                        width: 1.25,
+                        color: Colors.blue.withOpacity(0.5),
+                      ),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: TextField(
@@ -86,7 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ],
               ),
               const SizedBox(height: 50),
-              SizedBox(
+              Container(
                 width: double.infinity,
                 height: 45,
                 child: ElevatedButton(
@@ -99,7 +113,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       ? null
                       : () async {
                           await FirebaseAuth.instance.verifyPhoneNumber(
-                            // phoneNumber: '$_countryCode+$_phoneController.text',
                             phoneNumber:
                                 '$_countryCode ${_phoneController.text}',
                             verificationCompleted:
@@ -107,7 +120,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             verificationFailed: (FirebaseAuthException e) {},
                             codeSent:
                                 (String verificationId, int? resendToken) {
-                              Get.toNamed('/otpScreen');
+                              verify = verificationId;
+                              Get.toNamed('/otpScreen', arguments: [verify]);
                             },
                             codeAutoRetrievalTimeout:
                                 (String verificationId) {},
