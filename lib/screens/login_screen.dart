@@ -14,6 +14,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _phoneController = TextEditingController();
   CountryCode _countryCode = CountryCode(dialCode: '+976');
   bool isButtonActive = false;
+  String verify = "";
 
   @override
   void initState() {
@@ -99,7 +100,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       ? null
                       : () async {
                           await FirebaseAuth.instance.verifyPhoneNumber(
-                            // phoneNumber: '$_countryCode+$_phoneController.text',
                             phoneNumber:
                                 '$_countryCode ${_phoneController.text}',
                             verificationCompleted:
@@ -107,7 +107,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             verificationFailed: (FirebaseAuthException e) {},
                             codeSent:
                                 (String verificationId, int? resendToken) {
-                              Get.toNamed('/otpScreen');
+                              verify = verificationId;
+                              Get.toNamed('/otpScreen', arguments: [verify]);
                             },
                             codeAutoRetrievalTimeout:
                                 (String verificationId) {},
