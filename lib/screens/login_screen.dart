@@ -38,7 +38,6 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            // mainAxisSize: MainAxisSize.max,
             children: [
               const Text(
                 'Таны дугаар хэд вэ?',
@@ -46,12 +45,12 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 15),
               const Text(
-                'Та доор утасны дугаараа оруулна уу.',
+                'Та доор утасны дугаараа оруулна уу',
                 style: TextStyle(
                   color: Colors.grey,
                 ),
               ),
-              const SizedBox(height: 40),
+              const SizedBox(height: 30),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -76,6 +75,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       favorite: const ['+976', 'MN'],
                       showCountryOnly: false,
                       alignLeft: false,
+                      textStyle: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
                     ),
                   ),
                   Container(
@@ -95,19 +99,31 @@ class _LoginScreenState extends State<LoginScreen> {
                         border: InputBorder.none,
                         hintText: "Утасны дугаар",
                       ),
+                      style: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 50),
+              const SizedBox(height: 30),
               Container(
                 width: double.infinity,
                 height: 45,
+                decoration: BoxDecoration(
+                  // border: Border.all(width: 1),
+                  color: !isButtonActive
+                      ? Colors.grey.withOpacity(0.1)
+                      : Colors.blue.withOpacity(1),
+                  borderRadius: BorderRadius.circular(15),
+                ),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(15),
                     ),
+                    // backgroundColor: Colors.blue.withOpacity(0.5),
                   ),
                   onPressed: !isButtonActive
                       ? null
@@ -127,7 +143,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                 (String verificationId) {},
                           );
                         },
-                  child: const Text("Нэвтрэх"),
+                  child: const Text(
+                    "Нэвтрэх",
+                    style: TextStyle(fontSize: 12.5, color: Colors.white),
+                  ),
                 ),
               )
             ],
