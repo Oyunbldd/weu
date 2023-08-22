@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'WeU',
-      initialRoute: '/splashScreen',
+      initialRoute: '/mainScreen',
       getPages: appRoutes(),
     );
   }

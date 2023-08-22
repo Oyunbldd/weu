@@ -24,9 +24,10 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   final storage = FirebaseStorage.instance;
-  bool _showAnimation = false;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  double _widht = 200, _heigth = 200;
+
+  int _count = 3;
+  double _width = 200, _heigth = 200;
 
   Future<Position?> _determinePosition() async {
     bool serviceEnabled;
@@ -70,38 +71,33 @@ class _HomeViewState extends State<HomeView> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text(
+          Text(
             'Танд тусламж',
-            style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                fontSize: 21,
+                fontWeight: FontWeight.bold,
+                color: _count == 0 ? Colors.white : Colors.black),
           ),
-          const Text(
+          Text(
             'хэрэгтэй байна уу?',
-            style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                fontSize: 21,
+                fontWeight: FontWeight.bold,
+                color: _count == 0 ? Colors.white : Colors.black),
           ),
-          // const SizedBox(height: 10),
-          // const Text(
-          //   'Товчоо удаан дараарай',
-          //   style: TextStyle(
-          //     fontSize: 10,
-          //     fontWeight: FontWeight.bold,
-          //     color: Colors.black54,
-          //   ),
-          // ),
           const SizedBox(height: 30),
           Container(
             height: 275,
             width: 275,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(150),
-                // border: Border.all(width: 0.5, color: Colors.grey),
-                color: Colors.red.withOpacity(
-                  0.75,
-                )),
+              borderRadius: BorderRadius.circular(150),
+              color: Colors.red.withOpacity(0.75),
+            ),
             child: Stack(
               alignment: Alignment.center,
               children: [
                 AnimatedContainer(
-                  width: _widht,
+                  width: _width,
                   height: _heigth,
                   duration: const Duration(milliseconds: 250),
                   child: ElevatedButton(
@@ -111,44 +107,70 @@ class _HomeViewState extends State<HomeView> {
                       ),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(_widht / 2),
+                          borderRadius: BorderRadius.circular(_width / 2),
                         ),
                       ),
                     ),
-                    onLongPress: () async {
-                      Position? location = await _determinePosition();
+                    onPressed: () async {
                       setState(() {
-                        _showAnimation = true;
-                      });
-                      if (location != null) {
-                        final data = {
-                          "longitude": location.longitude,
-                          "latitue": location.latitude
-                        };
-                        firestore
-                            .collection('locations')
-                            .add(data)
-                            .then((value) => {
-                                  // Timer(const Duration(seconds: (2)), () {
-                                  //   Get.toNamed('/emergencyScreen');
-                                  // }),
-                                  Get.toNamed('/emergencyScreen'),
-                                  setState(() {
-                                    _showAnimation = false;
-                                  })
-                                });
-                      } else {
-                        setState(() {
-                          _showAnimation = false;
-                        });
-                      }
-                    },
-                    onPressed: () {
-                      setState(() {
-                        // if (_showAnimation) _showAnimation = false;
-                        _widht = _widht + 25;
+                        _width = _width + 25;
                         _heigth = _heigth + 25;
+                        _count -= 1;
                       });
+                      // if (_count == 0) {
+                      //   Position? location = await _determinePosition();
+
+                      //   if (location != null) {
+                      //     final data = {
+                      //       "longitude": location.longitude,
+                      //       "latitue": location.latitude
+                      //     };
+                      //     firestore
+                      //         .collection('locations')
+                      //         .add(data)
+                      //         .then((value) => {
+                      //               // Timer(const Duration(seconds: (2)), () {
+                      //               //   Get.toNamed('/emergencyScreen');
+                      //               // }),
+                      //               Get.toNamed('/emergencyScreen'),
+                      //             });
+                      //   }
+                      //   setState(() {
+                      //     _count = 3;
+                      //     _width = 200;
+                      //     _heigth = 200;
+                      //   });
+                      // }
+                      showDialog(
+                        context: context,
+                        builder: (_) => Material(
+                          type: MaterialType.transparency,
+                          child: Container(
+                            color: Colors.red.withOpacity(0.45),
+                            width: double.infinity,
+                            height: double.infinity,
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 75,
+                              horizontal: 25,
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'testing',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                const Text(
+                                  'Хүсэлт илгээж байна...',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                ElevatedButton(
+                                    onPressed: () {}, child: Text("I'm safe."))
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
                     },
                     child: Icon(
                       Icons.ads_click_rounded,
@@ -159,6 +181,14 @@ class _HomeViewState extends State<HomeView> {
                 ),
               ],
             ),
+          ),
+          const SizedBox(height: 20),
+          Text(
+            'Та $_count удаа товшоорой !',
+            style: TextStyle(
+                fontSize: 17.5,
+                fontWeight: FontWeight.bold,
+                color: _count == 0 ? Colors.white : Colors.black),
           ),
         ],
       ),
