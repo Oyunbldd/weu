@@ -26,6 +26,7 @@ class _HomeViewState extends State<HomeView> {
   final storage = FirebaseStorage.instance;
   bool _showAnimation = false;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
+  double _widht = 200, _heigth = 200;
 
   Future<Position?> _determinePosition() async {
     bool serviceEnabled;
@@ -63,133 +64,104 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const Text(
-          'Танд тусламж',
-          style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold),
-        ),
-        const Text(
-          'хэрэгтэй байна уу?',
-          style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 10),
-        const Text(
-          'Товчоо удаан дараарай',
-          style: TextStyle(
-            fontSize: 10,
-            fontWeight: FontWeight.bold,
-            color: Colors.black54,
+    return Container(
+      width: double.infinity,
+      color: Colors.white,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text(
+            'Танд тусламж',
+            style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold),
           ),
-        ),
-        const SizedBox(height: 30),
-        SizedBox(
-          height: 350,
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              _showAnimation
-                  ? Container(
-                      width: 350,
-                      height: 350,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(175),
-                        color: Colors.red.withOpacity(0.2),
+          const Text(
+            'хэрэгтэй байна уу?',
+            style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold),
+          ),
+          // const SizedBox(height: 10),
+          // const Text(
+          //   'Товчоо удаан дараарай',
+          //   style: TextStyle(
+          //     fontSize: 10,
+          //     fontWeight: FontWeight.bold,
+          //     color: Colors.black54,
+          //   ),
+          // ),
+          const SizedBox(height: 30),
+          Container(
+            height: 275,
+            width: 275,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(150),
+                // border: Border.all(width: 0.5, color: Colors.grey),
+                color: Colors.red.withOpacity(
+                  0.75,
+                )),
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                AnimatedContainer(
+                  width: _widht,
+                  height: _heigth,
+                  duration: const Duration(milliseconds: 250),
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: const MaterialStatePropertyAll(
+                        Colors.white,
                       ),
-                    )
-                      .animate(
-                        delay: 700.ms,
-                        onPlay: (controller) => controller.repeat(),
-                      )
-                      .fadeOut(delay: 1300.ms)
-                  : SizedBox(),
-              _showAnimation
-                  ? Container(
-                      width: 300,
-                      height: 300,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(150),
-                        color: Colors.red.withOpacity(0.1),
-                      ),
-                    )
-                      .animate(
-                        delay: 600.ms,
-                        onPlay: (controller) => controller.repeat(),
-                      )
-                      .fadeOut(delay: 1200.ms)
-                  : SizedBox(),
-              _showAnimation
-                  ? Container(
-                      width: 250,
-                      height: 250,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(125),
-                        color: Colors.red.withOpacity(0.3),
-                      ),
-                    )
-                      .animate(
-                        delay: 500.ms,
-                        onPlay: (controller) => controller.repeat(),
-                      )
-                      .fadeOut(delay: 1000.ms)
-                  : SizedBox(),
-              SizedBox(
-                width: 200,
-                height: 200,
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: const MaterialStatePropertyAll(Colors.red),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(100.0),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(_widht / 2),
+                        ),
                       ),
                     ),
-                  ),
-                  onLongPress: () async {
-                    Position? location = await _determinePosition();
-                    setState(() {
-                      _showAnimation = true;
-                    });
-                    if (location != null) {
-                      final data = {
-                        "longitude": location.longitude,
-                        "latitue": location.latitude
-                      };
-                      firestore
-                          .collection('locations')
-                          .add(data)
-                          .then((value) => {
-                                // Timer(const Duration(seconds: (2)), () {
-                                //   Get.toNamed('/emergencyScreen');
-                                // }),
-                                Get.toNamed('/emergencyScreen'),
-                                setState(() {
-                                  _showAnimation = false;
-                                })
-                              });
-                    } else {
+                    onLongPress: () async {
+                      Position? location = await _determinePosition();
                       setState(() {
-                        _showAnimation = false;
+                        _showAnimation = true;
                       });
-                    }
-                  },
-                  onPressed: () {
-                    setState(() {
-                      if (_showAnimation) _showAnimation = false;
-                    });
-                  },
-                  child: const Text(
-                    'Тусламж!',
-                    style:
-                        TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                      if (location != null) {
+                        final data = {
+                          "longitude": location.longitude,
+                          "latitue": location.latitude
+                        };
+                        firestore
+                            .collection('locations')
+                            .add(data)
+                            .then((value) => {
+                                  // Timer(const Duration(seconds: (2)), () {
+                                  //   Get.toNamed('/emergencyScreen');
+                                  // }),
+                                  Get.toNamed('/emergencyScreen'),
+                                  setState(() {
+                                    _showAnimation = false;
+                                  })
+                                });
+                      } else {
+                        setState(() {
+                          _showAnimation = false;
+                        });
+                      }
+                    },
+                    onPressed: () {
+                      setState(() {
+                        // if (_showAnimation) _showAnimation = false;
+                        _widht = _widht + 25;
+                        _heigth = _heigth + 25;
+                      });
+                    },
+                    child: Icon(
+                      Icons.ads_click_rounded,
+                      color: Colors.red.withOpacity(0.75),
+                      size: 35,
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
