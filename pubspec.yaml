@@ -26,6 +26,7 @@ dependencies:
   firebase_auth: ^4.7.3
   country_code_picker: ^3.0.0
   pinput: ^3.0.0
+  timer_count_down: ^2.2.2
 
 dev_dependencies:
   flutter_test:

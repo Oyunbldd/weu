@@ -6,6 +6,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:timer_count_down/timer_count_down.dart';
 
 //Using geolocator
 
@@ -146,7 +147,7 @@ class _HomeViewState extends State<HomeView> {
                         builder: (_) => Material(
                           type: MaterialType.transparency,
                           child: Container(
-                            color: Colors.red.withOpacity(0.45),
+                            color: Colors.red.withOpacity(0.5),
                             width: double.infinity,
                             height: double.infinity,
                             padding: const EdgeInsets.symmetric(
@@ -156,16 +157,102 @@ class _HomeViewState extends State<HomeView> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  'testing',
-                                  style: TextStyle(color: Colors.white),
+                                Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    Container(
+                                      width: 200,
+                                      height: 200,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          width: 0.25,
+                                          color: Colors.white,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(100),
+                                      ),
+                                    ),
+                                    Container(
+                                      width: 150,
+                                      height: 150,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          width: 0.25,
+                                          color: Colors.white,
+                                        ),
+                                        borderRadius: BorderRadius.circular(75),
+                                      ),
+                                    ),
+                                    Container(
+                                      width: 100,
+                                      height: 100,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          width: 0.25,
+                                          color: Colors.white,
+                                        ),
+                                        borderRadius: BorderRadius.circular(75),
+                                        color: Colors.white,
+                                      ),
+                                      child: Center(
+                                        child: Countdown(
+                                          seconds: 3,
+                                          build: (
+                                            BuildContext context,
+                                            double time,
+                                          ) =>
+                                              Text(
+                                            time.floor().toString(),
+                                            style: const TextStyle(
+                                              fontSize: 25,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          interval:
+                                              const Duration(milliseconds: 100),
+                                          onFinished: () {
+                                            Get.toNamed('/emergencyScreen');
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
+                                const SizedBox(height: 25),
                                 const Text(
                                   'Хүсэлт илгээж байна...',
                                   style: TextStyle(color: Colors.white),
                                 ),
-                                ElevatedButton(
-                                    onPressed: () {}, child: Text("I'm safe."))
+                                const Expanded(child: SizedBox()),
+                                SizedBox(
+                                  width: double.infinity,
+                                  height: 40,
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      Get.back();
+                                    },
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                          const MaterialStatePropertyAll(
+                                        Colors.white,
+                                      ),
+                                      shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(_width / 2),
+                                        ),
+                                      ),
+                                    ),
+                                    child: const Text(
+                                      "I AM SAFE.",
+                                      style: TextStyle(
+                                        color: Colors.red,
+                                        fontSize: 12.5,
+                                      ),
+                                    ),
+                                  ),
+                                )
                               ],
                             ),
                           ),
