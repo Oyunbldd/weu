@@ -12,151 +12,65 @@ class PermissionScreen extends StatelessWidget {
       body: SafeArea(
         child: Container(
           width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
+          color: Colors.white,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              Container(
+                width: 100,
+                height: 100,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50),
+                  color: Colors.grey.withOpacity(0.25),
+                ),
+                child: const Icon(
+                  Icons.location_on_rounded,
+                  size: 50,
+                  color: Colors.white,
+                ),
+              ),
+              const SizedBox(height: 25),
+              const Text(
+                'Enable Location Access',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              ),
+              const SizedBox(height: 25),
+              const Text(
+                'lorem ipsum  lorem ipisum lorem ipsum',
+                style: TextStyle(
+                  color: Colors.grey,
+                ),
+              ),
+              const Text(
+                'lorem ipsum  lorem ip',
+                style: TextStyle(
+                  color: Colors.grey,
+                ),
+              ),
               const SizedBox(height: 50),
               Container(
-                height: 75,
-                width: 50,
-                decoration: BoxDecoration(
-                  border: Border.all(width: 1, color: Colors.black),
-                ),
-                child: const Text('Picture'),
-              ),
-              const SizedBox(height: 25),
-              const Text(
-                'Allow WeU to access your',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              const Text(
-                'camera and location',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 25),
-              const Row(
-                children: [
-                  Icon(
-                    Icons.photo_album,
-                    size: 25,
-                  ),
-                  SizedBox(width: 10),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "How you'll use this",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                      SizedBox(height: 3),
-                      Text(
-                        'To take photos, record videos and preview',
-                        style: TextStyle(
-                          color: Colors.grey,
-                        ),
-                      ),
-                      Text(
-                        'visual and audio effects.',
-                        style: TextStyle(
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-              const SizedBox(height: 15),
-              const Row(
-                children: [
-                  Icon(
-                    Icons.message,
-                    size: 25,
-                  ),
-                  SizedBox(width: 10),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "How we'll use this",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                      SizedBox(height: 3),
-                      Text(
-                        'To show you previews of visual and',
-                        style: TextStyle(
-                          color: Colors.grey,
-                        ),
-                      ),
-                      Text(
-                        'audio effects.',
-                        style: TextStyle(
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-              const SizedBox(height: 15),
-              const Row(
-                children: [
-                  Icon(
-                    Icons.settings,
-                    size: 25,
-                  ),
-                  SizedBox(width: 10),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "How these settings work",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                      SizedBox(height: 3),
-                      Text(
-                        'You can change your choices at any time in',
-                        style: TextStyle(
-                          color: Colors.grey,
-                        ),
-                      ),
-                      Text(
-                        'your decice settings. If you allow access now,',
-                        style: TextStyle(
-                          color: Colors.grey,
-                        ),
-                      ),
-                      Text(
-                        "you won't have to allow it again.",
-                        style: TextStyle(
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              const Expanded(child: SizedBox()),
-              const Divider(height: 2, thickness: 2),
-              Container(
-                height: 40,
+                height: 45,
                 margin: const EdgeInsets.only(bottom: 25, top: 15),
                 child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(
+                      Colors.red.withOpacity(0.75),
+                    ),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                    ),
+                  ),
                   child: const SizedBox(
                     width: double.infinity,
                     child: Center(
                       child: Text(
-                        'Continue',
-                        style: TextStyle(fontSize: 14),
+                        'Allow',
+                        style: TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),
@@ -166,7 +80,7 @@ class PermissionScreen extends StatelessWidget {
                     final SharedPreferences prefs =
                         await SharedPreferences.getInstance();
                     await prefs.setBool('permissionScreen', false);
-                    Get.toNamed('/mainScreen');
+                    // Get.toNamed('/mainScreen');
                   },
                 ),
               ),
