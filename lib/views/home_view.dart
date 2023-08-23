@@ -6,6 +6,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:jumping_dot/jumping_dot.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 
 //Using geolocator
@@ -141,9 +142,27 @@ class _HomeViewState extends State<HomeView> {
                 ],
               ),
               const SizedBox(height: 25),
-              const Text(
-                'Хүсэлт илгээж байна...',
-                style: TextStyle(color: Colors.white),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    'Хүсэлт илгээж байна',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 17.5,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: JumpingDots(
+                      color: Colors.white,
+                      radius: 2.5,
+                      numberOfDots: 3,
+                      animationDuration: const Duration(milliseconds: 250),
+                    ),
+                  )
+                ],
               ),
               const Expanded(child: SizedBox()),
               SizedBox(

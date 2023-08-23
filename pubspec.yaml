@@ -27,6 +27,7 @@ dependencies:
   country_code_picker: ^3.0.0
   pinput: ^3.0.0
   timer_count_down: ^2.2.2
+  jumping_dot: ^0.0.6
 
 dev_dependencies:
   flutter_test:
