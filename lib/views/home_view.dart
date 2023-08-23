@@ -134,6 +134,13 @@ class _HomeViewState extends State<HomeView> {
                         ),
                         interval: const Duration(milliseconds: 100),
                         onFinished: () {
+                          Get.back();
+                          setState(() {
+                            _count = 3;
+                            _width = 200;
+                            _heigth = 200;
+                            deleteDoc = true;
+                          });
                           Get.toNamed('/emergencyScreen');
                         },
                       ),
