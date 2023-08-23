@@ -29,6 +29,7 @@ class _HomeViewState extends State<HomeView> {
 
   int _count = 3;
   double _width = 200, _heigth = 200;
+  bool deleteDoc = false;
 
   Future<Position?> _determinePosition() async {
     bool serviceEnabled;
@@ -61,6 +62,126 @@ class _HomeViewState extends State<HomeView> {
 
     return await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high,
+    );
+  }
+
+  Future _showDialog() {
+    return showDialog(
+      context: context,
+      builder: (_) => Material(
+        type: MaterialType.transparency,
+        child: Container(
+          color: Colors.red.withOpacity(0.5),
+          width: double.infinity,
+          height: double.infinity,
+          padding: const EdgeInsets.symmetric(
+            vertical: 75,
+            horizontal: 25,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  Container(
+                    width: 200,
+                    height: 200,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        width: 0.25,
+                        color: Colors.white,
+                      ),
+                      borderRadius: BorderRadius.circular(100),
+                    ),
+                  ),
+                  Container(
+                    width: 150,
+                    height: 150,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        width: 0.25,
+                        color: Colors.white,
+                      ),
+                      borderRadius: BorderRadius.circular(75),
+                    ),
+                  ),
+                  Container(
+                    width: 100,
+                    height: 100,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        width: 0.25,
+                        color: Colors.white,
+                      ),
+                      borderRadius: BorderRadius.circular(75),
+                      color: Colors.white,
+                    ),
+                    child: Center(
+                      child: Countdown(
+                        seconds: 3,
+                        build: (
+                          BuildContext context,
+                          double time,
+                        ) =>
+                            Text(
+                          time.floor().toString(),
+                          style: const TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        interval: const Duration(milliseconds: 100),
+                        onFinished: () {
+                          Get.toNamed('/emergencyScreen');
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 25),
+              const Text(
+                'Хүсэлт илгээж байна...',
+                style: TextStyle(color: Colors.white),
+              ),
+              const Expanded(child: SizedBox()),
+              SizedBox(
+                width: double.infinity,
+                height: 40,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Get.back();
+                    setState(() {
+                      _count = 3;
+                      _width = 200;
+                      _heigth = 200;
+                      deleteDoc = true;
+                    });
+                  },
+                  style: ButtonStyle(
+                    backgroundColor: const MaterialStatePropertyAll(
+                      Colors.white,
+                    ),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(_width / 2),
+                      ),
+                    ),
+                  ),
+                  child: const Text(
+                    "I AM SAFE.",
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontSize: 12.5,
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 
@@ -118,146 +239,32 @@ class _HomeViewState extends State<HomeView> {
                         _heigth = _heigth + 25;
                         _count -= 1;
                       });
-                      // if (_count == 0) {
-                      //   Position? location = await _determinePosition();
 
-                      //   if (location != null) {
-                      //     final data = {
-                      //       "longitude": location.longitude,
-                      //       "latitue": location.latitude
-                      //     };
-                      //     firestore
-                      //         .collection('locations')
-                      //         .add(data)
-                      //         .then((value) => {
-                      //               // Timer(const Duration(seconds: (2)), () {
-                      //               //   Get.toNamed('/emergencyScreen');
-                      //               // }),
-                      //               Get.toNamed('/emergencyScreen'),
-                      //             });
-                      //   }
-                      //   setState(() {
-                      //     _count = 3;
-                      //     _width = 200;
-                      //     _heigth = 200;
-                      //   });
-                      // }
-                      showDialog(
-                        context: context,
-                        builder: (_) => Material(
-                          type: MaterialType.transparency,
-                          child: Container(
-                            color: Colors.red.withOpacity(0.5),
-                            width: double.infinity,
-                            height: double.infinity,
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 75,
-                              horizontal: 25,
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    Container(
-                                      width: 200,
-                                      height: 200,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          width: 0.25,
-                                          color: Colors.white,
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(100),
-                                      ),
-                                    ),
-                                    Container(
-                                      width: 150,
-                                      height: 150,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          width: 0.25,
-                                          color: Colors.white,
-                                        ),
-                                        borderRadius: BorderRadius.circular(75),
-                                      ),
-                                    ),
-                                    Container(
-                                      width: 100,
-                                      height: 100,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          width: 0.25,
-                                          color: Colors.white,
-                                        ),
-                                        borderRadius: BorderRadius.circular(75),
-                                        color: Colors.white,
-                                      ),
-                                      child: Center(
-                                        child: Countdown(
-                                          seconds: 3,
-                                          build: (
-                                            BuildContext context,
-                                            double time,
-                                          ) =>
-                                              Text(
-                                            time.floor().toString(),
-                                            style: const TextStyle(
-                                              fontSize: 25,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          interval:
-                                              const Duration(milliseconds: 100),
-                                          onFinished: () {
-                                            Get.toNamed('/emergencyScreen');
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 25),
-                                const Text(
-                                  'Хүсэлт илгээж байна...',
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                                const Expanded(child: SizedBox()),
-                                SizedBox(
-                                  width: double.infinity,
-                                  height: 40,
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      Get.back();
-                                    },
-                                    style: ButtonStyle(
-                                      backgroundColor:
-                                          const MaterialStatePropertyAll(
-                                        Colors.white,
-                                      ),
-                                      shape: MaterialStateProperty.all<
-                                          RoundedRectangleBorder>(
-                                        RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(_width / 2),
-                                        ),
-                                      ),
-                                    ),
-                                    child: const Text(
-                                      "I AM SAFE.",
-                                      style: TextStyle(
-                                        color: Colors.red,
-                                        fontSize: 12.5,
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
+                      if (_count == 0) {
+                        _showDialog();
+                        Position? location = await _determinePosition();
+                        if (location != null) {
+                          final data = {
+                            "longitude": location.longitude,
+                            "latitue": location.latitude
+                          };
+                          firestore.collection('locations').add(data).then(
+                            (DocumentReference value) {
+                              // If user clicking cancelled button delete data from db
+
+                              if (deleteDoc) {
+                                firestore
+                                    .collection('locations')
+                                    .doc(value.id)
+                                    .delete();
+                                setState(() {
+                                  deleteDoc = false;
+                                });
+                              }
+                            },
+                          );
+                        }
+                      }
                     },
                     child: Icon(
                       Icons.ads_click_rounded,
