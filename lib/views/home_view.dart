@@ -25,27 +25,26 @@ class _HomeViewState extends State<HomeView> {
   bool deleteDoc = false;
 
   Future<Position?> _determinePosition() async {
-    bool serviceEnabled;
-    LocationPermission permission;
+    // bool serviceEnabled;
+    // LocationPermission permission;
 
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
-    }
+    // serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    // if (!serviceEnabled) {
+    //   return Future.error('Location services are disabled.');
+    // }
 
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        await Geolocator.openAppSettings();
-        // return Future.error('Location permissions are denied');
-      }
-    }
+    // permission = await Geolocator.checkPermission();
+    // if (permission == LocationPermission.denied) {
+    //   permission = await Geolocator.requestPermission();
+    //   if (permission == LocationPermission.denied) {
+    //     await Geolocator.openAppSettings();
+    //     // return Future.error('Location permissions are denied');
+    //   }
+    // }
 
-    if (permission == LocationPermission.deniedForever) {
-      return null;
-    }
-
+    // if (permission == LocationPermission.deniedForever) {
+    //   return null;
+    // }
     return await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high,
     );
