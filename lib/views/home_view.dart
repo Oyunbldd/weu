@@ -2,20 +2,12 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
+
 import 'package:get/get.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:jumping_dot/jumping_dot.dart';
 import 'package:timer_count_down/timer_count_down.dart';
-
-//Using geolocator
-
-//Ened location permission detect hiine
-//Firebase firestore ruu real time aar location goo shidne;
-//1.geolocator high level location g ashiglna
-//2.locationgoo firestore ruu realtime aar bichne
-//3.Request in amjilttai bol Emergency_screen ruu shidne
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -52,13 +44,6 @@ class _HomeViewState extends State<HomeView> {
 
     if (permission == LocationPermission.deniedForever) {
       return null;
-      // await Geolocator.openAppSettings();
-      // Check permission
-      // if (permission == LocationPermission.denied ||
-      //     permission == LocationPermission.deniedForever) {
-      //   return Future.error(
-      //       'Location permissions are permanently denied, we cannot request permissions.');
-      // }
     }
 
     return await Geolocator.getCurrentPosition(

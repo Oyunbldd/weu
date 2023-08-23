@@ -24,10 +24,10 @@ class _SplashScreenState extends State<SplashScreen> {
 
     await Future.delayed(const Duration(seconds: 1));
     LocationPermission permission = await Geolocator.checkPermission();
-
+    print(permission);
     if (LocationPermission.always == permission ||
         LocationPermission.whileInUse == permission) {
-      Get.toNamed('/mainScreen');
+      Get.toNamed('/mainScreen', arguments: ['allowed']);
     }
     if (LocationPermission.unableToDetermine == permission ||
         LocationPermission.denied == permission) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:weu/views/contact_view.dart';
 import 'package:weu/views/home_view.dart';
 import 'package:weu/views/profile_view.dart';
@@ -12,6 +13,8 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
+  var verificationId = Get.arguments[0];
+  // String? deniedForever = Get.arguments;
 
   List<Widget> body = [
     const HomeView(),
@@ -20,6 +23,7 @@ class _MainScreenState extends State<MainScreen> {
   ];
   @override
   Widget build(BuildContext context) {
+    print(verificationId);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       // theme: ThemeData(),
