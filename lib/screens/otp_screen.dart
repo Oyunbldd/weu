@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:pinput/pinput.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OtpScreen extends StatefulWidget {
   const OtpScreen({super.key});
@@ -15,6 +17,21 @@ class _OtpScreenState extends State<OtpScreen> {
   late String code;
   bool isButtonActive = false;
   var verificationId = Get.arguments[0];
+
+  _navigationtoNextScreen() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    await Future.delayed(const Duration(seconds: 1));
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (LocationPermission.always == permission ||
+        LocationPermission.whileInUse == permission) {
+      Get.toNamed('/mainScreen', arguments: ['allowed']);
+    }
+    if (LocationPermission.unableToDetermine == permission ||
+        LocationPermission.denied == permission) {
+      Get.toNamed('/permissionScreen');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +115,7 @@ class _OtpScreenState extends State<OtpScreen> {
                                       smsCode: code);
 
                               await auth.signInWithCredential(credential);
-                              Get.toNamed('/mainScreen');
+                              _navigationtoNextScreen();
                             } catch (e) {}
                           },
                     child: const Text(
