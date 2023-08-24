@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class RequiredScreen extends StatefulWidget {
   const RequiredScreen({super.key});
@@ -14,6 +15,8 @@ class _RequiredScreenState extends State<RequiredScreen> {
   final TextEditingController _nameController = TextEditingController();
   int currentStep = 0;
 
+  double _width = Get.width / 3;
+  double _value = Get.width / 3;
   @override
   void initState() {
     super.initState();
@@ -174,91 +177,15 @@ class _RequiredScreenState extends State<RequiredScreen> {
                   background: Colors.white,
                 ),
           ),
-          child: Container(
-            color: Colors.white,
-            child: Stepper(
-              type: StepperType.horizontal,
-              steps: getSteps(),
-              currentStep: currentStep,
-              controlsBuilder: (context, details) {
-                return Container(
-                  margin: const EdgeInsets.only(top: 25),
-                  child: Column(
-                    children: [
-                      Container(
-                        height: 45,
-                        margin: const EdgeInsets.only(bottom: 10),
-                        child: ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStatePropertyAll(
-                              isButtonActive
-                                  ? Colors.red.withOpacity(0.75)
-                                  : Colors.grey.withOpacity(0.25),
-                            ),
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(25),
-                              ),
-                            ),
-                          ),
-                          onPressed: isButtonActive
-                              ? () {
-                                  final isLastStep =
-                                      currentStep == getSteps().length - 1;
-                                  if (!isLastStep) {
-                                    setState(() {
-                                      currentStep += 1;
-                                      isButtonActive = false;
-                                    });
-                                  }
-                                }
-                              : null,
-                          child: SizedBox(
-                            width: double.infinity,
-                            child: Center(
-                              child: Text(
-                                'Үргэлжлүүлэх',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  color: isButtonActive
-                                      ? Colors.white
-                                      : Colors.grey,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      currentStep > 0
-                          ? SizedBox(
-                              height: 45,
-                              child: InkWell(
-                                onTap: () => setState(() {
-                                  currentStep -= 1;
-                                }),
-                                child: const SizedBox(
-                                  child: Center(
-                                    child: Text(
-                                      'Буцах',
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                // onPressed: () {},
-                              ),
-                            )
-                          : const SizedBox(),
-                    ],
-                  ),
-                );
-              },
-            ),
+          child: Column(
+            children: [
+              AnimatedContainer(
+                width: _width,
+                height: 5,
+                color: Colors.red.withOpacity(0.75),
+                duration: const Duration(milliseconds: 500),
+              ),
+            ],
           ),
         ),
       ),
