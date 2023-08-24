@@ -18,25 +18,8 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   _navigationtoNextScreen() async {
-    // final SharedPreferences prefs = await SharedPreferences.getInstance();
-    //checking name field screen
-    // final bool? permissionScreen = prefs.getBool('permissionScreen');
-
     await Future.delayed(const Duration(seconds: 1));
-    // LocationPermission permission = await Geolocator.checkPermission();
-    // print(permission);
-    // if (LocationPermission.always == permission ||
-    //     LocationPermission.whileInUse == permission) {
-    //   Get.toNamed('/mainScreen', arguments: ['allowed']);
-    // }
-    // if (LocationPermission.unableToDetermine == permission ||
-    //     LocationPermission.denied == permission) {
-    //   Get.toNamed('/permissionScreen');
-    // }
-
-    // Get.toNamed(permissionScreen == null ? '/permissionScreen' : '/mainScreen');
     Get.toNamed('/loginScreen');
-    // Get.toNamed('/mainScreen');
   }
 
   Widget build(BuildContext context) {
