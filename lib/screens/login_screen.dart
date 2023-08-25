@@ -31,126 +31,129 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 25),
-        color: Colors.white,
-        alignment: Alignment.center,
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const Text(
-                'Таны дугаар хэд вэ?',
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 15),
-              const Text(
-                'Та доор утасны дугаараа оруулна уу',
-                style: TextStyle(
-                  color: Colors.grey,
+      body: WillPopScope(
+        onWillPop: () async => false,
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 25),
+          color: Colors.white,
+          alignment: Alignment.center,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const Text(
+                  'Таны дугаар хэд вэ?',
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 ),
-              ),
-              const SizedBox(height: 30),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.25,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 1.25,
-                        color: Colors.blue.withOpacity(0.5),
-                      ),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: CountryCodePicker(
-                      padding: const EdgeInsets.symmetric(horizontal: 0),
-                      flagWidth: 20,
-                      onChanged: (CountryCode countryCode) {
-                        setState(() {
-                          _countryCode = countryCode;
-                        });
-                      },
-                      initialSelection: 'MN',
-                      favorite: const ['+976', 'MN'],
-                      showCountryOnly: false,
-                      alignLeft: false,
-                      textStyle: const TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                    ),
+                const SizedBox(height: 15),
+                const Text(
+                  'Та доор утасны дугаараа оруулна уу',
+                  style: TextStyle(
+                    color: Colors.grey,
                   ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.6,
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 1.25,
-                        color: Colors.blue.withOpacity(0.5),
-                      ),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: TextField(
-                      controller: _phoneController,
-                      keyboardType: TextInputType.phone,
-                      decoration: const InputDecoration(
-                        border: InputBorder.none,
-                        hintText: "Утасны дугаар",
-                      ),
-                      style: const TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 30),
-              Container(
-                width: double.infinity,
-                height: 45,
-                decoration: BoxDecoration(
-                  // border: Border.all(width: 1),
-                  color: !isButtonActive
-                      ? Colors.grey.withOpacity(0.1)
-                      : Colors.blue.withOpacity(1),
-                  borderRadius: BorderRadius.circular(15),
                 ),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    // backgroundColor: Colors.blue.withOpacity(0.5),
-                  ),
-                  onPressed: !isButtonActive
-                      ? null
-                      : () async {
-                          await FirebaseAuth.instance.verifyPhoneNumber(
-                            phoneNumber:
-                                '$_countryCode ${_phoneController.text}',
-                            verificationCompleted:
-                                (PhoneAuthCredential credential) {},
-                            verificationFailed: (FirebaseAuthException e) {},
-                            codeSent:
-                                (String verificationId, int? resendToken) {
-                              verify = verificationId;
-                              Get.toNamed('/otpScreen', arguments: [verify]);
-                            },
-                            codeAutoRetrievalTimeout:
-                                (String verificationId) {},
-                          );
+                const SizedBox(height: 30),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.25,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1.25,
+                          color: Colors.blue.withOpacity(0.5),
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: CountryCodePicker(
+                        padding: const EdgeInsets.symmetric(horizontal: 0),
+                        flagWidth: 20,
+                        onChanged: (CountryCode countryCode) {
+                          setState(() {
+                            _countryCode = countryCode;
+                          });
                         },
-                  child: const Text(
-                    "Нэвтрэх",
-                    style: TextStyle(fontSize: 12.5, color: Colors.white),
-                  ),
+                        initialSelection: 'MN',
+                        favorite: const ['+976', 'MN'],
+                        showCountryOnly: false,
+                        alignLeft: false,
+                        textStyle: const TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.6,
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1.25,
+                          color: Colors.blue.withOpacity(0.5),
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: TextField(
+                        controller: _phoneController,
+                        keyboardType: TextInputType.phone,
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          hintText: "Утасны дугаар",
+                        ),
+                        style: const TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              )
-            ],
+                const SizedBox(height: 30),
+                Container(
+                  width: double.infinity,
+                  height: 45,
+                  decoration: BoxDecoration(
+                    // border: Border.all(width: 1),
+                    color: !isButtonActive
+                        ? Colors.grey.withOpacity(0.1)
+                        : Colors.blue.withOpacity(1),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      // backgroundColor: Colors.blue.withOpacity(0.5),
+                    ),
+                    onPressed: !isButtonActive
+                        ? null
+                        : () async {
+                            await FirebaseAuth.instance.verifyPhoneNumber(
+                              phoneNumber:
+                                  '$_countryCode ${_phoneController.text}',
+                              verificationCompleted:
+                                  (PhoneAuthCredential credential) {},
+                              verificationFailed: (FirebaseAuthException e) {},
+                              codeSent:
+                                  (String verificationId, int? resendToken) {
+                                verify = verificationId;
+                                Get.toNamed('/otpScreen', arguments: [verify]);
+                              },
+                              codeAutoRetrievalTimeout:
+                                  (String verificationId) {},
+                            );
+                          },
+                    child: const Text(
+                      "Нэвтрэх",
+                      style: TextStyle(fontSize: 12.5, color: Colors.white),
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

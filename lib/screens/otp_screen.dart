@@ -18,19 +18,37 @@ class _OtpScreenState extends State<OtpScreen> {
   bool isButtonActive = false;
   var verificationId = Get.arguments[0];
 
-  _navigationtoNextScreen() async {
+  _navigationtoNextScreen(String uid, String phoneNumber) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final bool requiredScreen = prefs.getBool('requiredScreen') ?? true;
 
-    await Future.delayed(const Duration(seconds: 1));
-    LocationPermission permission = await Geolocator.checkPermission();
-    if (LocationPermission.always == permission ||
-        LocationPermission.whileInUse == permission) {
-      Get.toNamed('/mainScreen', arguments: ['allowed']);
+    if (requiredScreen) {
+      Get.toNamed(
+        '/requiredScreen',
+        arguments: [
+          uid,
+          phoneNumber,
+        ],
+      );
+    } else {
+      LocationPermission permission = await Geolocator.checkPermission();
+      if (LocationPermission.always == permission ||
+          LocationPermission.whileInUse == permission) {
+        Get.toNamed('/mainScreen', arguments: ['allowed']);
+      } else {
+        Get.toNamed('/mainScreen', arguments: ['denied']);
+      }
     }
-    if (LocationPermission.unableToDetermine == permission ||
-        LocationPermission.denied == permission) {
-      Get.toNamed('/permissionScreen');
-    }
+    // await Future.delayed(const Duration(seconds: 1));
+
+    // if (LocationPermission.always == permission ||
+    //     LocationPermission.whileInUse == permission) {
+    //   Get.toNamed('/mainScreen', arguments: ['allowed']);
+    // }
+    // if (LocationPermission.unableToDetermine == permission ||
+    //     LocationPermission.denied == permission) {
+    //   Get.toNamed('/permissionScreen');
+    // }
   }
 
   @override
@@ -114,8 +132,12 @@ class _OtpScreenState extends State<OtpScreen> {
                                       verificationId: verificationId,
                                       smsCode: code);
 
-                              await auth.signInWithCredential(credential);
-                              _navigationtoNextScreen();
+                              UserCredential userData =
+                                  await auth.signInWithCredential(credential);
+                              _navigationtoNextScreen(
+                                userData.user!.uid,
+                                userData.user!.phoneNumber!,
+                              );
                             } catch (e) {}
                           },
                     child: const Text(

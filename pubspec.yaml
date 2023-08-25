@@ -28,6 +28,7 @@ dependencies:
   pinput: ^3.0.0
   timer_count_down: ^2.2.2
   jumping_dot: ^0.0.6
+  dropdown_button2: ^2.3.8
 
 dev_dependencies:
   flutter_test:

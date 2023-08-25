@@ -4,6 +4,7 @@ import 'package:weu/screens/main_screen.dart';
 import 'package:weu/screens/emergency_screen.dart';
 import 'package:weu/screens/otp_screen.dart';
 import 'package:weu/screens/permission_screen.dart';
+import 'package:weu/screens/required_screen.dart';
 import 'package:weu/screens/splash_screen.dart';
 
 appRoutes() => [
@@ -44,6 +45,13 @@ appRoutes() => [
       GetPage(
         name: '/otpScreen',
         page: () => const OtpScreen(),
+        middlewares: [MyMiddelware()],
+        transition: Transition.native,
+        // transitionDuration: const Duration(milliseconds: 500),
+      ),
+      GetPage(
+        name: '/requiredScreen',
+        page: () => const RequiredScreen(),
         middlewares: [MyMiddelware()],
         transition: Transition.native,
         // transitionDuration: const Duration(milliseconds: 500),
