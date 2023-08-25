@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:get/get.dart';
+import '../custom_widgets/stepper.dart' as CustomStepper;
 
 class RequiredScreen extends StatefulWidget {
   const RequiredScreen({super.key});
@@ -8,7 +11,7 @@ class RequiredScreen extends StatefulWidget {
 }
 
 class _RequiredScreenState extends State<RequiredScreen> {
-  bool isButtonActive = false;
+  bool isButtonActive = true;
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
@@ -34,9 +37,97 @@ class _RequiredScreenState extends State<RequiredScreen> {
     });
   }
 
-  List<Step> getSteps() => [
-        Step(
+  List<CustomStepper.Step> getSteps() => [
+        CustomStepper.Step(
           isActive: currentStep >= 0,
+          title: const Text(''),
+          content: Container(
+            width: double.infinity,
+            height: MediaQuery.of(context).size.height - 300,
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
+            color: Colors.white,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  width: 100,
+                  height: 100,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    color: Colors.grey.withOpacity(0.25),
+                  ),
+                  child: const Icon(
+                    Icons.location_on_rounded,
+                    size: 50,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 25),
+                const Text(
+                  'Enable Location Access',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                ),
+                const SizedBox(height: 25),
+                const Text(
+                  'lorem ipsum  lorem ipisum lorem ipsum',
+                  style: TextStyle(
+                    color: Colors.grey,
+                  ),
+                ),
+                const Text(
+                  'lorem ipsum  lorem ip',
+                  style: TextStyle(
+                    color: Colors.grey,
+                  ),
+                ),
+                const SizedBox(height: 50),
+                // Container(
+                //   height: 45,
+                //   margin: const EdgeInsets.only(bottom: 25, top: 15),
+                //   child: ElevatedButton(
+                //     style: ButtonStyle(
+                //       backgroundColor: MaterialStatePropertyAll(
+                //         Colors.red.withOpacity(0.75),
+                //       ),
+                //       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                //         RoundedRectangleBorder(
+                //           borderRadius: BorderRadius.circular(25),
+                //         ),
+                //       ),
+                //     ),
+                //     child: const SizedBox(
+                //       width: double.infinity,
+                //       child: Center(
+                //         child: Text(
+                //           'Allow',
+                //           style: TextStyle(
+                //             fontSize: 15,
+                //             fontWeight: FontWeight.bold,
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //     onPressed: () async {
+                //       await Geolocator.requestPermission();
+                //       LocationPermission permission =
+                //           await Geolocator.checkPermission();
+                //       if (LocationPermission.always == permission ||
+                //           LocationPermission.whileInUse == permission) {
+                //         Get.toNamed('/mainScreen', arguments: ['allowed']);
+                //       }
+                //       if (LocationPermission.denied == permission) {
+                //         Get.toNamed('/mainScreen', arguments: ['denied']);
+                //       }
+                //     },
+                //   ),
+                // ),
+              ],
+            ),
+          ),
+        ),
+        CustomStepper.Step(
+          isActive: currentStep >= 1,
           title: const Text(''),
           content: SizedBox(
             width: double.infinity,
@@ -74,8 +165,8 @@ class _RequiredScreenState extends State<RequiredScreen> {
             ),
           ),
         ),
-        Step(
-          isActive: currentStep >= 1,
+        CustomStepper.Step(
+          isActive: currentStep >= 2,
           title: const Text(''),
           content: SizedBox(
             width: double.infinity,
@@ -156,11 +247,6 @@ class _RequiredScreenState extends State<RequiredScreen> {
             ),
           ),
         ),
-        Step(
-          isActive: currentStep >= 2,
-          title: const Text(''),
-          content: Container(),
-        ),
       ];
 
   @override
@@ -176,8 +262,8 @@ class _RequiredScreenState extends State<RequiredScreen> {
           ),
           child: Container(
             color: Colors.white,
-            child: Stepper(
-              type: StepperType.horizontal,
+            child: CustomStepper.Stepper(
+              type: CustomStepper.StepperType.horizontal,
               steps: getSteps(),
               currentStep: currentStep,
               controlsBuilder: (context, details) {
@@ -203,10 +289,16 @@ class _RequiredScreenState extends State<RequiredScreen> {
                             ),
                           ),
                           onPressed: isButtonActive
-                              ? () {
+                              ? () async {
                                   final isLastStep =
                                       currentStep == getSteps().length - 1;
-                                  if (!isLastStep) {
+                                  if (currentStep == 0) {
+                                    await Geolocator.requestPermission();
+                                    setState(() {
+                                      currentStep = 1;
+                                      isButtonActive = false;
+                                    });
+                                  } else if (!isLastStep) {
                                     setState(() {
                                       currentStep += 1;
                                       isButtonActive = false;
@@ -236,7 +328,8 @@ class _RequiredScreenState extends State<RequiredScreen> {
                               height: 45,
                               child: InkWell(
                                 onTap: () => setState(() {
-                                  currentStep -= 1;
+                                  currentStep -= currentStep == 1 ? 0 : 1;
+                                  isButtonActive = true;
                                 }),
                                 child: const SizedBox(
                                   child: Center(
