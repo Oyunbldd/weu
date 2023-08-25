@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../custom_widgets/stepper.dart' as CustomStepper;
 
@@ -15,8 +16,15 @@ class _RequiredScreenState extends State<RequiredScreen> {
   bool isButtonActive = true;
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _nameController = TextEditingController();
   int currentStep = 0;
+
+  final List<String> selectingTypes = [
+    'Гэр бүлийн гишүүн',
+    'Хамаатан садан',
+    'Найз нөхөд',
+  ];
+
+  String selectedValue = '';
 
   @override
   void initState() {
@@ -24,7 +32,7 @@ class _RequiredScreenState extends State<RequiredScreen> {
 
     _phoneController.addListener(() {
       bool buttonType =
-          _phoneController.text.length > 7 && _nameController.text.isNotEmpty;
+          _phoneController.text.length > 7 && selectedValue.isNotEmpty;
       setState(() {
         isButtonActive = buttonType;
       });
@@ -82,47 +90,6 @@ class _RequiredScreenState extends State<RequiredScreen> {
                     color: Colors.grey,
                   ),
                 ),
-                const SizedBox(height: 50),
-                // Container(
-                //   height: 45,
-                //   margin: const EdgeInsets.only(bottom: 25, top: 15),
-                //   child: ElevatedButton(
-                //     style: ButtonStyle(
-                //       backgroundColor: MaterialStatePropertyAll(
-                //         Colors.red.withOpacity(0.75),
-                //       ),
-                //       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                //         RoundedRectangleBorder(
-                //           borderRadius: BorderRadius.circular(25),
-                //         ),
-                //       ),
-                //     ),
-                //     child: const SizedBox(
-                //       width: double.infinity,
-                //       child: Center(
-                //         child: Text(
-                //           'Allow',
-                //           style: TextStyle(
-                //             fontSize: 15,
-                //             fontWeight: FontWeight.bold,
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //     onPressed: () async {
-                //       await Geolocator.requestPermission();
-                //       LocationPermission permission =
-                //           await Geolocator.checkPermission();
-                //       if (LocationPermission.always == permission ||
-                //           LocationPermission.whileInUse == permission) {
-                //         Get.toNamed('/mainScreen', arguments: ['allowed']);
-                //       }
-                //       if (LocationPermission.denied == permission) {
-                //         Get.toNamed('/mainScreen', arguments: ['denied']);
-                //       }
-                //     },
-                //   ),
-                // ),
               ],
             ),
           ),
@@ -196,26 +163,58 @@ class _RequiredScreenState extends State<RequiredScreen> {
                 const SizedBox(height: 20),
                 Column(
                   children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 0.25,
-                          color: Colors.black,
+                    DropdownButtonFormField2<String>(
+                      isExpanded: true,
+                      decoration: InputDecoration(
+                        contentPadding:
+                            const EdgeInsets.symmetric(vertical: 13),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        borderRadius: BorderRadius.circular(10),
                       ),
-                      child: TextField(
-                        controller: _nameController,
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          hintText: "Нэр",
+                      hint: const Text(
+                        'Таны хэн болох ?',
+                        style: TextStyle(fontSize: 14),
+                      ),
+                      items: selectingTypes
+                          .map((item) => DropdownMenuItem<String>(
+                                value: item,
+                                child: Text(
+                                  item,
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ))
+                          .toList(),
+                      validator: (value) {
+                        if (value == null) {
+                          return 'Please select gender.';
+                        }
+                        return null;
+                      },
+                      onChanged: (value) {
+                        setState(() {
+                          selectedValue = value.toString();
+                        });
+                      },
+                      buttonStyleData: const ButtonStyleData(
+                        padding: EdgeInsets.only(right: 10),
+                      ),
+                      iconStyleData: const IconStyleData(
+                        icon: Icon(
+                          Icons.arrow_drop_down,
+                          color: Colors.black45,
                         ),
-                        style: const TextStyle(
-                          fontSize: 12.5,
-                          fontWeight: FontWeight.bold,
+                        iconSize: 24,
+                      ),
+                      dropdownStyleData: DropdownStyleData(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
                         ),
+                      ),
+                      menuItemStyleData: const MenuItemStyleData(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
                       ),
                     ),
                     const SizedBox(height: 15),
