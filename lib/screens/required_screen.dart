@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../custom_widgets/stepper.dart' as CustomStepper;
 
 class RequiredScreen extends StatefulWidget {
@@ -260,97 +261,123 @@ class _RequiredScreenState extends State<RequiredScreen> {
                   background: Colors.white,
                 ),
           ),
-          child: Container(
-            color: Colors.white,
-            child: CustomStepper.Stepper(
-              type: CustomStepper.StepperType.horizontal,
-              steps: getSteps(),
-              currentStep: currentStep,
-              controlsBuilder: (context, details) {
-                return Container(
-                  margin: const EdgeInsets.only(top: 25),
-                  child: Column(
-                    children: [
-                      Container(
-                        height: 45,
-                        margin: const EdgeInsets.only(bottom: 10),
-                        child: ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStatePropertyAll(
-                              isButtonActive
-                                  ? Colors.red.withOpacity(0.75)
-                                  : Colors.grey.withOpacity(0.25),
-                            ),
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(25),
+          child: WillPopScope(
+            onWillPop: () async => false,
+            child: Container(
+              color: Colors.white,
+              child: CustomStepper.Stepper(
+                type: CustomStepper.StepperType.horizontal,
+                steps: getSteps(),
+                currentStep: currentStep,
+                controlsBuilder: (context, details) {
+                  return Container(
+                    margin: const EdgeInsets.only(top: 25),
+                    child: Column(
+                      children: [
+                        Container(
+                          height: 45,
+                          margin: const EdgeInsets.only(bottom: 10),
+                          child: ElevatedButton(
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStatePropertyAll(
+                                isButtonActive
+                                    ? Colors.red.withOpacity(0.75)
+                                    : Colors.grey.withOpacity(0.25),
+                              ),
+                              shape: MaterialStateProperty.all<
+                                  RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(25),
+                                ),
                               ),
                             ),
-                          ),
-                          onPressed: isButtonActive
-                              ? () async {
-                                  final isLastStep =
-                                      currentStep == getSteps().length - 1;
-                                  if (currentStep == 0) {
-                                    await Geolocator.requestPermission();
-                                    setState(() {
-                                      currentStep = 1;
-                                      isButtonActive = false;
-                                    });
-                                  } else if (!isLastStep) {
-                                    setState(() {
-                                      currentStep += 1;
-                                      isButtonActive = false;
-                                    });
+                            onPressed: isButtonActive
+                                ? () async {
+                                    final isLastStep =
+                                        currentStep == getSteps().length - 1;
+                                    if (currentStep == 0) {
+                                      await Geolocator.requestPermission();
+                                      setState(() {
+                                        currentStep = 1;
+                                        isButtonActive = false;
+                                      });
+                                    } else if (!isLastStep) {
+                                      setState(() {
+                                        currentStep += 1;
+                                        isButtonActive = false;
+                                      });
+                                    }
+                                    if (isLastStep) {
+                                      //avsan data gaa firestore deer bichih
+                                      //duustal in loading animation oruulj ireh
+
+                                      final SharedPreferences prefs =
+                                          await SharedPreferences.getInstance();
+                                      await prefs.setBool(
+                                          'requiredScreen', false);
+                                      LocationPermission permission =
+                                          await Geolocator.checkPermission();
+                                      if (LocationPermission.always ==
+                                              permission ||
+                                          LocationPermission.whileInUse ==
+                                              permission) {
+                                        Get.toNamed('/mainScreen',
+                                            arguments: ['allowed']);
+                                      }
+                                      if (LocationPermission.denied ==
+                                          permission) {
+                                        Get.toNamed('/mainScreen',
+                                            arguments: ['denied']);
+                                      }
+                                    }
                                   }
-                                }
-                              : null,
-                          child: SizedBox(
-                            width: double.infinity,
-                            child: Center(
-                              child: Text(
-                                'Үргэлжлүүлэх',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  color: isButtonActive
-                                      ? Colors.white
-                                      : Colors.grey,
+                                : null,
+                            child: SizedBox(
+                              width: double.infinity,
+                              child: Center(
+                                child: Text(
+                                  'Үргэлжлүүлэх',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    color: isButtonActive
+                                        ? Colors.white
+                                        : Colors.grey,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      currentStep > 0
-                          ? SizedBox(
-                              height: 45,
-                              child: InkWell(
-                                onTap: () => setState(() {
-                                  currentStep -= currentStep == 1 ? 0 : 1;
-                                  isButtonActive = true;
-                                }),
-                                child: const SizedBox(
-                                  child: Center(
-                                    child: Text(
-                                      'Буцах',
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.grey,
+                        currentStep > 0
+                            ? SizedBox(
+                                height: 45,
+                                child: InkWell(
+                                  onTap: () => setState(() {
+                                    currentStep -= currentStep == 1 ? 0 : 1;
+                                    isButtonActive = true;
+                                  }),
+                                  child: const SizedBox(
+                                    child: Center(
+                                      child: Text(
+                                        'Буцах',
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.grey,
+                                        ),
                                       ),
                                     ),
                                   ),
+                                  // onPressed: () {},
                                 ),
-                                // onPressed: () {},
-                              ),
-                            )
-                          : const SizedBox(),
-                    ],
-                  ),
-                );
-              },
+                              )
+                            : const SizedBox(),
+                      ],
+                    ),
+                  );
+                },
+              ),
             ),
           ),
         ),
