@@ -18,12 +18,18 @@ class _OtpScreenState extends State<OtpScreen> {
   bool isButtonActive = false;
   var verificationId = Get.arguments[0];
 
-  _navigationtoNextScreen() async {
+  _navigationtoNextScreen(String uid, String phoneNumber) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final bool requiredScreen = prefs.getBool('requiredScreen') ?? true;
 
     if (requiredScreen) {
-      Get.toNamed('/requiredScreen');
+      Get.toNamed(
+        '/requiredScreen',
+        arguments: [
+          uid,
+          phoneNumber,
+        ],
+      );
     } else {
       LocationPermission permission = await Geolocator.checkPermission();
       if (LocationPermission.always == permission ||
@@ -126,8 +132,12 @@ class _OtpScreenState extends State<OtpScreen> {
                                       verificationId: verificationId,
                                       smsCode: code);
 
-                              await auth.signInWithCredential(credential);
-                              _navigationtoNextScreen();
+                              UserCredential userData =
+                                  await auth.signInWithCredential(credential);
+                              _navigationtoNextScreen(
+                                userData.user!.uid,
+                                userData.user!.phoneNumber!,
+                              );
                             } catch (e) {}
                           },
                     child: const Text(

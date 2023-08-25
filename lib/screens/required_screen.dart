@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -26,6 +27,9 @@ class _RequiredScreenState extends State<RequiredScreen> {
 
   String selectedValue = '';
 
+  String userUid = Get.arguments[0];
+  String phoneNumber = Get.arguments[1];
+
   @override
   void initState() {
     super.initState();
@@ -44,6 +48,34 @@ class _RequiredScreenState extends State<RequiredScreen> {
         isButtonActive = buttonType;
       });
     });
+  }
+
+  Future<void> createUser({
+    required String userName,
+    required String userPhoneNumber,
+    required String selectingType,
+    required String requiredPhoneNumber,
+  }) async {
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    final data = {
+      'name': userName,
+      'phoneNumber': userPhoneNumber,
+      'contacts': {
+        '$selectingType': requiredPhoneNumber,
+      },
+    };
+    await firestore.collection('users').add(data);
+
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('requiredScreen', false);
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (LocationPermission.always == permission ||
+        LocationPermission.whileInUse == permission) {
+      return Get.toNamed('/mainScreen', arguments: ['allowed']);
+    }
+    if (LocationPermission.denied == permission) {
+      return Get.toNamed('/mainScreen', arguments: ['denied']);
+    }
   }
 
   List<CustomStepper.Step> getSteps() => [
@@ -307,27 +339,13 @@ class _RequiredScreenState extends State<RequiredScreen> {
                                       });
                                     }
                                     if (isLastStep) {
-                                      //avsan data gaa firestore deer bichih
-                                      //duustal in loading animation oruulj ireh
-
-                                      final SharedPreferences prefs =
-                                          await SharedPreferences.getInstance();
-                                      await prefs.setBool(
-                                          'requiredScreen', false);
-                                      LocationPermission permission =
-                                          await Geolocator.checkPermission();
-                                      if (LocationPermission.always ==
-                                              permission ||
-                                          LocationPermission.whileInUse ==
-                                              permission) {
-                                        Get.toNamed('/mainScreen',
-                                            arguments: ['allowed']);
-                                      }
-                                      if (LocationPermission.denied ==
-                                          permission) {
-                                        Get.toNamed('/mainScreen',
-                                            arguments: ['denied']);
-                                      }
+                                      createUser(
+                                        userName: _usernameController.text,
+                                        userPhoneNumber: phoneNumber,
+                                        selectingType: selectedValue,
+                                        requiredPhoneNumber:
+                                            _phoneController.text,
+                                      );
                                     }
                                   }
                                 : null,
