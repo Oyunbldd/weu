@@ -94,10 +94,13 @@ class _MainScreenState extends State<MainScreen> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: SafeArea(
-          child: Center(
-            child: _currentIndex == 0 && verificationId == 'denied'
-                ? getPermission()
-                : body[_currentIndex],
+          child: WillPopScope(
+            onWillPop: () async => false,
+            child: Center(
+              child: _currentIndex == 0 && verificationId == 'denied'
+                  ? getPermission()
+                  : body[_currentIndex],
+            ),
           ),
         ),
         bottomNavigationBar: BottomNavigationBar(
