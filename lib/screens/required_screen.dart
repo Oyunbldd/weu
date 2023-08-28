@@ -17,6 +17,7 @@ class _RequiredScreenState extends State<RequiredScreen> {
   bool isButtonActive = true;
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _phoneNameController = TextEditingController();
   int currentStep = 0;
 
   final List<String> selectingTypes = [
@@ -35,8 +36,9 @@ class _RequiredScreenState extends State<RequiredScreen> {
     super.initState();
 
     _phoneController.addListener(() {
-      bool buttonType =
-          _phoneController.text.length > 7 && selectedValue.isNotEmpty;
+      bool buttonType = _phoneController.text.length > 7 &&
+          selectedValue.isNotEmpty &&
+          _phoneNameController.text.isNotEmpty;
       setState(() {
         isButtonActive = buttonType;
       });
@@ -60,11 +62,15 @@ class _RequiredScreenState extends State<RequiredScreen> {
     final data = {
       'name': userName,
       'phoneNumber': userPhoneNumber,
-      'contacts': {
-        '$selectingType': requiredPhoneNumber,
-      },
     };
-    await firestore.collection('users').add(data);
+    final contactData = {_phoneNameController.text: _phoneController.text};
+    await firestore.collection('users').doc(userPhoneNumber).set(data);
+    await firestore
+        .collection('users')
+        .doc(userPhoneNumber)
+        .collection('contacts')
+        .doc(selectingType)
+        .set(contactData);
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('requiredScreen', false);
@@ -221,7 +227,7 @@ class _RequiredScreenState extends State<RequiredScreen> {
                           .toList(),
                       validator: (value) {
                         if (value == null) {
-                          return 'Please select gender.';
+                          return '';
                         }
                         return null;
                       },
@@ -247,6 +253,29 @@ class _RequiredScreenState extends State<RequiredScreen> {
                       ),
                       menuItemStyleData: const MenuItemStyleData(
                         padding: EdgeInsets.symmetric(horizontal: 16),
+                      ),
+                    ),
+                    const SizedBox(height: 15),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 0.25,
+                          color: Colors.black,
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: TextField(
+                        controller: _phoneNameController,
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          hintText: "Хадгалах нэр",
+                        ),
+                        style: const TextStyle(
+                          fontSize: 12.5,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 15),

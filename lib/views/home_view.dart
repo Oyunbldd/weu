@@ -197,104 +197,108 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      color: Colors.white,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'Танд тусламж',
-            style: TextStyle(
-                fontSize: 21,
-                fontWeight: FontWeight.bold,
-                color: _count == 0 ? Colors.white : Colors.black),
-          ),
-          Text(
-            'хэрэгтэй байна уу?',
-            style: TextStyle(
-                fontSize: 21,
-                fontWeight: FontWeight.bold,
-                color: _count == 0 ? Colors.white : Colors.black),
-          ),
-          const SizedBox(height: 30),
-          Container(
-            height: 275,
-            width: 275,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(150),
-              color: Colors.red.withOpacity(0.75),
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Container(
+        width: double.infinity,
+        color: Colors.white,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Танд тусламж',
+              style: TextStyle(
+                  fontSize: 21,
+                  fontWeight: FontWeight.bold,
+                  color: _count == 0 ? Colors.white : Colors.black),
             ),
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                AnimatedContainer(
-                  width: _width,
-                  height: _heigth,
-                  duration: const Duration(milliseconds: 250),
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor: const MaterialStatePropertyAll(
-                        Colors.white,
-                      ),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(_width / 2),
+            Text(
+              'хэрэгтэй байна уу?',
+              style: TextStyle(
+                  fontSize: 21,
+                  fontWeight: FontWeight.bold,
+                  color: _count == 0 ? Colors.white : Colors.black),
+            ),
+            const SizedBox(height: 30),
+            Container(
+              height: 275,
+              width: 275,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(150),
+                color: Colors.red.withOpacity(0.75),
+              ),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  AnimatedContainer(
+                    width: _width,
+                    height: _heigth,
+                    duration: const Duration(milliseconds: 250),
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: const MaterialStatePropertyAll(
+                          Colors.white,
+                        ),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(_width / 2),
+                          ),
                         ),
                       ),
-                    ),
-                    onPressed: () async {
-                      setState(() {
-                        _width = _width + 25;
-                        _heigth = _heigth + 25;
-                        _count -= 1;
-                      });
+                      onPressed: () async {
+                        setState(() {
+                          _width = _width + 25;
+                          _heigth = _heigth + 25;
+                          _count -= 1;
+                        });
 
-                      if (_count == 0) {
-                        _showDialog();
-                        Position? location = await _determinePosition();
-                        if (location != null) {
-                          final data = {
-                            "longitude": location.longitude,
-                            "latitue": location.latitude
-                          };
-                          firestore.collection('locations').add(data).then(
-                            (DocumentReference value) {
-                              // If user clicking cancelled button delete data from db
+                        if (_count == 0) {
+                          _showDialog();
+                          Position? location = await _determinePosition();
+                          if (location != null) {
+                            final data = {
+                              "longitude": location.longitude,
+                              "latitue": location.latitude
+                            };
+                            firestore.collection('locations').add(data).then(
+                              (DocumentReference value) {
+                                // If user clicking cancelled button delete data from db
 
-                              if (deleteDoc) {
-                                firestore
-                                    .collection('locations')
-                                    .doc(value.id)
-                                    .delete();
-                                setState(() {
-                                  deleteDoc = false;
-                                });
-                              }
-                            },
-                          );
+                                if (deleteDoc) {
+                                  firestore
+                                      .collection('locations')
+                                      .doc(value.id)
+                                      .delete();
+                                  setState(() {
+                                    deleteDoc = false;
+                                  });
+                                }
+                              },
+                            );
+                          }
                         }
-                      }
-                    },
-                    child: Icon(
-                      Icons.ads_click_rounded,
-                      color: Colors.red.withOpacity(0.75),
-                      size: 35,
+                      },
+                      child: Icon(
+                        Icons.ads_click_rounded,
+                        color: Colors.red.withOpacity(0.75),
+                        size: 35,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          const SizedBox(height: 20),
-          Text(
-            'Та $_count удаа товшоорой !',
-            style: TextStyle(
-                fontSize: 17.5,
-                fontWeight: FontWeight.bold,
-                color: _count == 0 ? Colors.white : Colors.black),
-          ),
-        ],
+            const SizedBox(height: 20),
+            Text(
+              'Та $_count удаа товшоорой !',
+              style: TextStyle(
+                  fontSize: 17.5,
+                  fontWeight: FontWeight.bold,
+                  color: _count == 0 ? Colors.white : Colors.black),
+            ),
+          ],
+        ),
       ),
     );
   }
