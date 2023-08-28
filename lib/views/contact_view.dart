@@ -1,6 +1,7 @@
-import 'dart:developer';
+// ignore_for_file: use_build_context_synchronously
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cool_alert/cool_alert.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,6 @@ class _ContactViewState extends State<ContactView> {
       .snapshots();
 
   bool buttonHide = false;
-  bool isButtonActive = false;
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _phoneNameController = TextEditingController();
 
@@ -38,15 +38,6 @@ class _ContactViewState extends State<ContactView> {
   @override
   void initState() {
     user = auth.currentUser!;
-    _phoneController.addListener(() {
-      bool buttonType = _phoneController.text.length > 7 &&
-          selectedValue.isNotEmpty &&
-          _phoneNameController.text.isNotEmpty;
-
-      setState(() {
-        isButtonActive = buttonType;
-      });
-    });
 
     super.initState();
   }
@@ -79,6 +70,8 @@ class _ContactViewState extends State<ContactView> {
                         ),
                         clipBehavior: Clip.antiAliasWithSaveLayer,
                         builder: (BuildContext context) {
+                          FirebaseFirestore firestore =
+                              FirebaseFirestore.instance;
                           return Padding(
                             padding: EdgeInsets.only(
                                 bottom:
@@ -237,7 +230,6 @@ class _ContactViewState extends State<ContactView> {
                                               onPressed: () {
                                                 setState(() {
                                                   selectedValue = '';
-                                                  isButtonActive = false;
                                                 });
                                                 _phoneController.text = '';
                                                 _phoneNameController.text = '';
@@ -264,20 +256,57 @@ class _ContactViewState extends State<ContactView> {
                                           SizedBox(
                                             width: 125,
                                             child: ElevatedButton(
-                                              onPressed: !isButtonActive
-                                                  ? null
-                                                  : () {},
+                                              onPressed: () async {
+                                                if (_phoneController
+                                                            .text.length >
+                                                        7 &&
+                                                    selectedValue.isNotEmpty &&
+                                                    _phoneNameController
+                                                        .text.isNotEmpty) {
+                                                  final contactData = {
+                                                    _phoneNameController.text:
+                                                        _phoneController.text
+                                                  };
+                                                  await firestore
+                                                      .collection('users')
+                                                      .doc(user.phoneNumber)
+                                                      .collection('contacts')
+                                                      .doc(selectedValue)
+                                                      .set(contactData)
+                                                      .then(
+                                                        (value) =>
+                                                            CoolAlert.show(
+                                                          context: context,
+                                                          type: CoolAlertType
+                                                              .success,
+                                                          text:
+                                                              "Таны хүсэлт амжилттай !",
+                                                        ),
+                                                      );
+                                                  setState(() {
+                                                    selectedValue = '';
+                                                  });
+                                                  _phoneController.text = '';
+                                                  _phoneNameController.text =
+                                                      '';
+                                                  Navigator.pop(context);
+                                                } else {
+                                                  CoolAlert.show(
+                                                    context: context,
+                                                    type: CoolAlertType.error,
+                                                    text:
+                                                        "Талбар хоосон байх ёсгүй !",
+                                                  );
+                                                }
+                                              },
                                               style: ElevatedButton.styleFrom(
                                                 elevation: 0.0,
                                                 shape: RoundedRectangleBorder(
                                                   borderRadius:
                                                       BorderRadius.circular(10),
                                                 ),
-                                                backgroundColor: !isButtonActive
-                                                    ? Colors.grey
-                                                        .withOpacity(0.1)
-                                                    : Colors.red
-                                                        .withOpacity(0.75),
+                                                backgroundColor: Colors.red
+                                                    .withOpacity(0.75),
                                               ),
                                               child: const Text(
                                                 'Нэмэх',
