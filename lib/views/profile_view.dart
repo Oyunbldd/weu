@@ -57,13 +57,15 @@ class _ProfileViewState extends State<ProfileView> {
               ),
               Divider(),
               const SizedBox(height: 10),
+              const Text(
+                'Нэр:',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 5),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 decoration: BoxDecoration(
-                  border: Border.all(
-                    width: 1.25,
-                    color: Colors.black.withOpacity(0.5),
-                  ),
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: TextField(
@@ -80,13 +82,15 @@ class _ProfileViewState extends State<ProfileView> {
                 ),
               ),
               const SizedBox(height: 15),
+              const Text(
+                'Утасны дугаар:',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 5),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 decoration: BoxDecoration(
-                  border: Border.all(
-                    width: 1.25,
-                    color: Colors.black.withOpacity(0.5),
-                  ),
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: TextField(
@@ -103,13 +107,15 @@ class _ProfileViewState extends State<ProfileView> {
                 ),
               ),
               const SizedBox(height: 15),
+              const Text(
+                'И-Майл хаяг:',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 5),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 decoration: BoxDecoration(
-                  border: Border.all(
-                    width: 1.25,
-                    color: Colors.black.withOpacity(0.5),
-                  ),
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: TextField(
