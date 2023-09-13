@@ -66,7 +66,8 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation(platform('com.google.firebase:firebase-bom:32.2.2'))
     implementation("com.google.firebase:firebase-firestore-ktx")
-    implementation('com.google.firebase:firebase-analytics')
     implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-appcheck-playintegrity")
+    implementation("com.google.firebase:firebase-appcheck-ktx")
     
 }

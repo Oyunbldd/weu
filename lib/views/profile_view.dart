@@ -204,8 +204,9 @@ class _ProfileViewState extends State<ProfileView> {
                           fontWeight: FontWeight.bold,
                         ),
                         showCancelBtn: true,
-                        onConfirmBtnTap: () {
+                        onConfirmBtnTap: () async {
                           Navigator.pop(context);
+                          await FirebaseAuth.instance.signOut();
                         },
                         onCancelBtnTap: () {},
                         confirmBtnText: 'Тийм',
