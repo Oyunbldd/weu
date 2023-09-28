@@ -32,11 +32,11 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: WillPopScope(
         onWillPop: () async => false,
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 25),
-          color: Colors.white,
           alignment: Alignment.center,
           child: SingleChildScrollView(
             child: Column(
@@ -135,6 +135,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             AuthenticationRepository.instance
                                 .phoneAuthentication(
                               '$_countryCode ${_phoneController.text}',
+                              // _phoneController.text.trim(),
                             );
                             Get.toNamed('/otpScreen');
                           },

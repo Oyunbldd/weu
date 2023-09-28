@@ -31,10 +31,10 @@
               "client_type": 3
             },
             {
-              "client_id": "15738567745-p1jdcqhvn94jacub4ds0skv1if31en16.apps.googleusercontent.com",
+              "client_id": "15738567745-9q42k34h1464tsrf64jbfg7t273v8pss.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.weu"
+                "bundle_id": "com.example.weu"
               }
             }
           ]
