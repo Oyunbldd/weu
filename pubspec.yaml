@@ -29,6 +29,7 @@ dependencies:
   jumping_dot: ^0.0.6
   dropdown_button2: ^2.3.8
   cool_alert: ^2.0.1
+  google_fonts: ^6.1.0
 
 dev_dependencies:
   flutter_test:

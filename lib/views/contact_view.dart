@@ -6,6 +6,8 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import 'package:google_fonts/google_fonts.dart';
+
 class ContactView extends StatefulWidget {
   const ContactView({super.key});
 
@@ -55,10 +57,14 @@ class _ContactViewState extends State<ContactView> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
+                  Text(
                     'Миний контакт',
-                    style:
-                        TextStyle(fontSize: 22.5, fontWeight: FontWeight.bold),
+                    style: GoogleFonts.rubik(
+                      textStyle: const TextStyle(
+                        fontSize: 22.5,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                   InkWell(
                     onTap: () {
@@ -94,13 +100,16 @@ class _ContactViewState extends State<ContactView> {
                                     ),
                                   ),
                                   const SizedBox(height: 20),
-                                  const Align(
+                                  Align(
                                     alignment: Alignment.topLeft,
                                     child: Text(
                                       'Контакт нэмэх',
-                                      style: TextStyle(
+                                      style: GoogleFonts.rubik(
+                                        textStyle: const TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 20),
+                                          fontSize: 20,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                   Column(
@@ -111,27 +120,36 @@ class _ContactViewState extends State<ContactView> {
                                         decoration: InputDecoration(
                                           contentPadding:
                                               const EdgeInsets.symmetric(
-                                                  vertical: 13),
+                                            vertical: 13,
+                                          ),
                                           border: OutlineInputBorder(
                                             borderRadius:
                                                 BorderRadius.circular(10),
                                           ),
                                         ),
-                                        hint: const Text(
+                                        hint: Text(
                                           'Таны хэн болох ?',
-                                          style: TextStyle(fontSize: 14),
+                                          style: GoogleFonts.rubik(
+                                            textStyle: const TextStyle(
+                                              fontSize: 14,
+                                            ),
+                                          ),
                                         ),
                                         items: selectingTypes
-                                            .map((item) =>
-                                                DropdownMenuItem<String>(
-                                                  value: item,
-                                                  child: Text(
-                                                    item,
-                                                    style: const TextStyle(
+                                            .map(
+                                              (item) =>
+                                                  DropdownMenuItem<String>(
+                                                value: item,
+                                                child: Text(
+                                                  item,
+                                                  style: GoogleFonts.rubik(
+                                                    textStyle: const TextStyle(
                                                       fontSize: 14,
                                                     ),
                                                   ),
-                                                ))
+                                                ),
+                                              ),
+                                            )
                                             .toList(),
                                         validator: (value) {
                                           if (value == null) {
@@ -163,7 +181,8 @@ class _ContactViewState extends State<ContactView> {
                                         menuItemStyleData:
                                             const MenuItemStyleData(
                                           padding: EdgeInsets.symmetric(
-                                              horizontal: 16),
+                                            horizontal: 16,
+                                          ),
                                         ),
                                       ),
                                       const SizedBox(height: 15),
@@ -171,7 +190,8 @@ class _ContactViewState extends State<ContactView> {
                                         width:
                                             MediaQuery.of(context).size.width,
                                         padding: const EdgeInsets.symmetric(
-                                            horizontal: 10),
+                                          horizontal: 10,
+                                        ),
                                         decoration: BoxDecoration(
                                           border: Border.all(
                                             width: 0.25,
@@ -186,9 +206,9 @@ class _ContactViewState extends State<ContactView> {
                                             border: InputBorder.none,
                                             hintText: "Хадгалах нэр",
                                           ),
-                                          style: const TextStyle(
-                                            fontSize: 12.5,
-                                            fontWeight: FontWeight.bold,
+                                          style: GoogleFonts.rubik(
+                                            fontSize: 13,
+                                            // fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                       ),
@@ -214,8 +234,8 @@ class _ContactViewState extends State<ContactView> {
                                             hintText: "Утасны дугаар",
                                           ),
                                           style: const TextStyle(
-                                            fontSize: 12.5,
-                                            fontWeight: FontWeight.bold,
+                                            fontSize: 13,
+                                            // fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                       ),
@@ -244,12 +264,16 @@ class _ContactViewState extends State<ContactView> {
                                                 ),
                                                 backgroundColor: Colors.white,
                                               ),
-                                              child: const Text(
+                                              child: Text(
                                                 'Болих',
-                                                style: TextStyle(
+                                                style: GoogleFonts.rubik(
                                                   color: Colors.grey,
                                                   fontWeight: FontWeight.bold,
                                                 ),
+                                                // style: TextStyle(
+                                                //   color: Colors.grey,
+                                                //   fontWeight: FontWeight.bold,
+                                                // ),
                                               ),
                                             ),
                                           ),
@@ -303,14 +327,18 @@ class _ContactViewState extends State<ContactView> {
                                                 elevation: 0.0,
                                                 shape: RoundedRectangleBorder(
                                                   borderRadius:
-                                                      BorderRadius.circular(10),
+                                                      BorderRadius.circular(
+                                                    10,
+                                                  ),
                                                 ),
-                                                backgroundColor: Colors.red
-                                                    .withOpacity(0.75),
+                                                backgroundColor:
+                                                    Colors.red.withOpacity(
+                                                  0.75,
+                                                ),
                                               ),
-                                              child: const Text(
+                                              child: Text(
                                                 'Нэмэх',
-                                                style: TextStyle(
+                                                style: GoogleFonts.rubik(
                                                   color: Colors.white,
                                                   fontWeight: FontWeight.bold,
                                                 ),
@@ -372,7 +400,7 @@ class _ContactViewState extends State<ContactView> {
                                 SizedBox(
                                   child: Text(
                                     document.id,
-                                    style: const TextStyle(
+                                    style: GoogleFonts.rubik(
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -419,7 +447,7 @@ class _ContactViewState extends State<ContactView> {
                                               children: [
                                                 Text(
                                                   key,
-                                                  style: const TextStyle(
+                                                  style: GoogleFonts.rubik(
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 15,
                                                   ),
@@ -427,7 +455,7 @@ class _ContactViewState extends State<ContactView> {
                                                 const SizedBox(height: 5),
                                                 Text(
                                                   "${data[key]}",
-                                                  style: const TextStyle(
+                                                  style: GoogleFonts.rubik(
                                                     fontSize: 12,
                                                   ),
                                                 ),
