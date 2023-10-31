@@ -22,7 +22,7 @@ class _HomeViewState extends State<HomeView> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   int _count = 3;
-  double _width = 200, _heigth = 200;
+  double _width = 175, _heigth = 175;
   bool deleteDoc = false;
 
   Future<Position?> _determinePosition() async {
@@ -122,8 +122,8 @@ class _HomeViewState extends State<HomeView> {
                           Get.back();
                           setState(() {
                             _count = 3;
-                            _width = 200;
-                            _heigth = 200;
+                            _width = 175;
+                            _heigth = 175;
                             deleteDoc = true;
                           });
                           Get.toNamed('/emergencyScreen');
@@ -158,7 +158,6 @@ class _HomeViewState extends State<HomeView> {
               ),
               const Expanded(child: SizedBox()),
               SizedBox(
-                // width: double.infinity,
                 width: 200,
                 height: 40,
                 child: ElevatedButton(
@@ -166,8 +165,8 @@ class _HomeViewState extends State<HomeView> {
                     Get.back();
                     setState(() {
                       _count = 3;
-                      _width = 200;
-                      _heigth = 200;
+                      _width = 175;
+                      _heigth = 175;
                       deleteDoc = true;
                     });
                   },
@@ -228,10 +227,10 @@ class _HomeViewState extends State<HomeView> {
                 ),
               ),
             ),
-            const SizedBox(height: 30),
+            const SizedBox(height: 20),
             Container(
-              height: 275,
-              width: 275,
+              height: 250,
+              width: 250,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(150),
                 color: Colors.red.withOpacity(0.75),
@@ -273,7 +272,6 @@ class _HomeViewState extends State<HomeView> {
                             firestore.collection('locations').add(data).then(
                               (DocumentReference value) {
                                 // If user clicking cancelled button delete data from db
-
                                 if (deleteDoc) {
                                   firestore
                                       .collection('locations')
