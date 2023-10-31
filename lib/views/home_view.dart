@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:jumping_dot/jumping_dot.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 
@@ -111,7 +112,7 @@ class _HomeViewState extends State<HomeView> {
                         ) =>
                             Text(
                           time.floor().toString(),
-                          style: const TextStyle(
+                          style: GoogleFonts.rubik(
                             fontSize: 25,
                             fontWeight: FontWeight.bold,
                           ),
@@ -136,9 +137,9 @@ class _HomeViewState extends State<HomeView> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
+                  Text(
                     'Хүсэлт илгээж байна',
-                    style: TextStyle(
+                    style: GoogleFonts.rubik(
                       color: Colors.white,
                       fontSize: 17.5,
                       fontWeight: FontWeight.bold,
@@ -157,7 +158,8 @@ class _HomeViewState extends State<HomeView> {
               ),
               const Expanded(child: SizedBox()),
               SizedBox(
-                width: double.infinity,
+                // width: double.infinity,
+                width: 200,
                 height: 40,
                 child: ElevatedButton(
                   onPressed: () {
@@ -179,11 +181,12 @@ class _HomeViewState extends State<HomeView> {
                       ),
                     ),
                   ),
-                  child: const Text(
-                    "I AM SAFE.",
-                    style: TextStyle(
-                      color: Colors.red,
+                  child: Text(
+                    "Хүсэлтийг цуцлах",
+                    style: GoogleFonts.rubik(
+                      color: Colors.black,
                       fontSize: 12.5,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
