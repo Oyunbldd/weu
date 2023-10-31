@@ -210,17 +210,23 @@ class _HomeViewState extends State<HomeView> {
           children: [
             Text(
               'Танд тусламж',
-              style: TextStyle(
+              style: GoogleFonts.rubik(
+                textStyle: TextStyle(
                   fontSize: 21,
-                  fontWeight: FontWeight.bold,
-                  color: _count == 0 ? Colors.white : Colors.black),
+                  fontWeight: FontWeight.w600,
+                  color: _count == 0 ? Colors.white : Colors.black,
+                ),
+              ),
             ),
             Text(
               'хэрэгтэй байна уу?',
-              style: TextStyle(
+              style: GoogleFonts.rubik(
+                textStyle: TextStyle(
                   fontSize: 21,
-                  fontWeight: FontWeight.bold,
-                  color: _count == 0 ? Colors.white : Colors.black),
+                  fontWeight: FontWeight.w600,
+                  color: _count == 0 ? Colors.white : Colors.black,
+                ),
+              ),
             ),
             const SizedBox(height: 30),
             Container(
@@ -283,9 +289,9 @@ class _HomeViewState extends State<HomeView> {
                         }
                       },
                       child: Icon(
-                        Icons.ads_click_rounded,
+                        Icons.touch_app,
                         color: Colors.red.withOpacity(0.75),
-                        size: 35,
+                        size: 50,
                       ),
                     ),
                   ),
@@ -295,10 +301,13 @@ class _HomeViewState extends State<HomeView> {
             const SizedBox(height: 20),
             Text(
               'Та $_count удаа товшоорой !',
-              style: TextStyle(
+              style: GoogleFonts.rubik(
+                textStyle: TextStyle(
                   fontSize: 17.5,
-                  fontWeight: FontWeight.bold,
-                  color: _count == 0 ? Colors.white : Colors.black),
+                  fontWeight: FontWeight.w600,
+                  color: _count == 0 ? Colors.white : Colors.black,
+                ),
+              ),
             ),
           ],
         ),
