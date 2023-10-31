@@ -13,12 +13,12 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _currentIndex = 0;
+  int _currentIndex = 1;
   var verificationId = Get.arguments[0];
 
   List<Widget?> body = [
-    const HomeView(),
     const ContactView(),
+    const HomeView(),
     const ProfileView(),
   ];
 
@@ -103,32 +103,53 @@ class _MainScreenState extends State<MainScreen> {
             ),
           ),
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _currentIndex,
-          backgroundColor: Colors.white,
-          selectedItemColor: Colors.red,
-          unselectedItemColor: Colors.grey,
-          selectedFontSize: 0.0,
-          unselectedFontSize: 0.0,
-          onTap: (int index) {
-            setState(() {
-              _currentIndex = index;
-            });
-          },
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: '',
+        bottomNavigationBar: Container(
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topRight: Radius.circular(15),
+              topLeft: Radius.circular(15),
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.contact_phone_outlined),
-              label: '',
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black38,
+                spreadRadius: 0,
+                blurRadius: 0.33,
+              ),
+            ],
+          ),
+          child: ClipRRect(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(15),
+              topRight: Radius.circular(15),
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: '',
+            child: BottomNavigationBar(
+              currentIndex: _currentIndex,
+              backgroundColor: Colors.white,
+              selectedItemColor: Colors.red,
+              unselectedItemColor: Colors.grey,
+              selectedFontSize: 0.0,
+              unselectedFontSize: 0.0,
+              onTap: (int index) {
+                setState(() {
+                  _currentIndex = index;
+                });
+              },
+              items: const [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.person),
+                  label: '',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  label: '',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.settings),
+                  label: '',
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
