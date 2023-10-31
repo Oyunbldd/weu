@@ -2,9 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cool_alert/cool_alert.dart';
-import 'package:get/get.dart';
-import 'package:weu/routes.dart';
-import 'package:weu/screens/login_screen.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
@@ -60,10 +58,12 @@ class _ProfileViewState extends State<ProfileView> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
+                  Text(
                     'Миний профайл',
-                    style:
-                        TextStyle(fontSize: 22.5, fontWeight: FontWeight.bold),
+                    style: GoogleFonts.rubik(
+                      fontSize: 22.5,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   InkWell(
                     onTap: () => setState(() {
@@ -73,7 +73,10 @@ class _ProfileViewState extends State<ProfileView> {
                       height: 30,
                       width: 30,
                       decoration: BoxDecoration(
-                        border: Border.all(width: 1.5, color: Colors.grey),
+                        border: Border.all(
+                          width: 1.5,
+                          color: Colors.grey,
+                        ),
                         borderRadius: BorderRadius.circular(25),
                       ),
                       child: const Icon(
@@ -87,9 +90,9 @@ class _ProfileViewState extends State<ProfileView> {
               ),
               Divider(),
               const SizedBox(height: 10),
-              const Text(
+              Text(
                 'Нэр:',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: GoogleFonts.rubik(fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 5),
               Container(
@@ -106,16 +109,16 @@ class _ProfileViewState extends State<ProfileView> {
                     border: InputBorder.none,
                     hintText: "Name",
                   ),
-                  style: const TextStyle(
+                  style: GoogleFonts.rubik(
                     fontSize: 13,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
               ),
               const SizedBox(height: 15),
-              const Text(
+              Text(
                 'Утасны дугаар:',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: GoogleFonts.rubik(fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 5),
               Container(
@@ -132,16 +135,16 @@ class _ProfileViewState extends State<ProfileView> {
                     border: InputBorder.none,
                     hintText: "Утасны дугаар",
                   ),
-                  style: const TextStyle(
+                  style: GoogleFonts.rubik(
                     fontSize: 13,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
               ),
               const SizedBox(height: 15),
-              const Text(
+              Text(
                 'И-Майл хаяг:',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: GoogleFonts.rubik(fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 5),
               Container(
@@ -177,9 +180,9 @@ class _ProfileViewState extends State<ProfileView> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           backgroundColor: Colors.red.withOpacity(0.75)),
-                      child: const Text(
+                      child: Text(
                         'Өөрчлөлтийг хадгалах',
-                        style: TextStyle(
+                        style: GoogleFonts.rubik(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                           fontSize: 12.5,
@@ -192,7 +195,7 @@ class _ProfileViewState extends State<ProfileView> {
               const Expanded(child: SizedBox()),
               Center(
                 child: SizedBox(
-                  width: 200,
+                  width: 175,
                   child: ElevatedButton(
                     onPressed: () {
                       CoolAlert.show(
@@ -221,12 +224,12 @@ class _ProfileViewState extends State<ProfileView> {
                       ),
                       backgroundColor: Colors.white,
                     ),
-                    child: const Text(
+                    child: Text(
                       'Гарах',
-                      style: TextStyle(
+                      style: GoogleFonts.rubik(
                         color: Colors.grey,
                         fontWeight: FontWeight.bold,
-                        fontSize: 15,
+                        fontSize: 13,
                       ),
                     ),
                   ),
