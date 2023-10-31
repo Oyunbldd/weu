@@ -1,7 +1,7 @@
 import 'package:country_code_picker/country_code_picker.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:weu/repository/authentication_repository.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -11,15 +11,16 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final controller = Get.put(AuthenticationRepository());
+
   final TextEditingController _phoneController = TextEditingController();
   CountryCode _countryCode = CountryCode(dialCode: '+976');
+
   bool isButtonActive = false;
-  String verify = "";
 
   @override
   void initState() {
     super.initState();
-
     _phoneController.addListener(() {
       bool buttonType = _phoneController.text.length > 7;
       setState(() {
@@ -31,11 +32,11 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: WillPopScope(
         onWillPop: () async => false,
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 25),
-          color: Colors.white,
           alignment: Alignment.center,
           child: SingleChildScrollView(
             child: Column(
@@ -131,20 +132,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: !isButtonActive
                         ? null
                         : () async {
-                            await FirebaseAuth.instance.verifyPhoneNumber(
-                              phoneNumber:
-                                  '$_countryCode ${_phoneController.text}',
-                              verificationCompleted:
-                                  (PhoneAuthCredential credential) {},
-                              verificationFailed: (FirebaseAuthException e) {},
-                              codeSent:
-                                  (String verificationId, int? resendToken) {
-                                verify = verificationId;
-                                Get.toNamed('/otpScreen', arguments: [verify]);
-                              },
-                              codeAutoRetrievalTimeout:
-                                  (String verificationId) {},
+                            AuthenticationRepository.instance
+                                .phoneAuthentication(
+                              '$_countryCode ${_phoneController.text}',
+                              // _phoneController.text.trim(),
                             );
+                            Get.toNamed('/otpScreen');
                           },
                     child: const Text(
                       "Нэвтрэх",

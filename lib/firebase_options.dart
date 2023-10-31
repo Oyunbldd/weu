@@ -48,7 +48,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyB9b-FbkeqFjKqj86EXbfjfHk8xRH8MG0M',
-    appId: '1:15738567745:android:c05cbdb6bfb276b787dac0',
+    appId: '1:15738567745:android:e8bde7e006d96cf687dac0',
     messagingSenderId: '15738567745',
     projectId: 'weeu-36e39',
     storageBucket: 'weeu-36e39.appspot.com',
@@ -56,21 +56,23 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBxz1AYyRNNrUfW5dyXNgSgXLLnKSjrXK0',
-    appId: '1:15738567745:ios:2dd51b2ed6e77de487dac0',
+    appId: '1:15738567745:ios:58824471f067625287dac0',
     messagingSenderId: '15738567745',
     projectId: 'weeu-36e39',
     storageBucket: 'weeu-36e39.appspot.com',
-    iosClientId: '15738567745-9q42k34h1464tsrf64jbfg7t273v8pss.apps.googleusercontent.com',
-    iosBundleId: 'com.example.weu',
+    androidClientId: '15738567745-q8ed68oqhm2tica0ri52t5nt7sac572b.apps.googleusercontent.com',
+    iosClientId: '15738567745-jnkfhhm06nla5da2vaf4kagpupghs3ib.apps.googleusercontent.com',
+    iosBundleId: 'com.weeu',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyBxz1AYyRNNrUfW5dyXNgSgXLLnKSjrXK0',
-    appId: '1:15738567745:ios:b021256a98db90a487dac0',
+    appId: '1:15738567745:ios:58824471f067625287dac0',
     messagingSenderId: '15738567745',
     projectId: 'weeu-36e39',
     storageBucket: 'weeu-36e39.appspot.com',
-    iosClientId: '15738567745-p1jdcqhvn94jacub4ds0skv1if31en16.apps.googleusercontent.com',
-    iosBundleId: 'com.weu',
+    androidClientId: '15738567745-q8ed68oqhm2tica0ri52t5nt7sac572b.apps.googleusercontent.com',
+    iosClientId: '15738567745-jnkfhhm06nla5da2vaf4kagpupghs3ib.apps.googleusercontent.com',
+    iosBundleId: 'com.weeu',
   );
 }

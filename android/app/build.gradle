@@ -25,6 +25,13 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
+ def keystoreProperties = new Properties()
+   def keystorePropertiesFile = rootProject.file('key.properties')
+   if (keystorePropertiesFile.exists()) {
+       keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+   }
+
+
 android {
     namespace "com.example.weu"
     compileSdkVersion flutter.compileSdkVersion
@@ -44,18 +51,26 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.weu"
+        applicationId "com.weu.app"
         minSdkVersion 21
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
 
-    buildTypes {
-        release {
-            signingConfig signingConfigs.debug
-        }
-    }
+   signingConfigs {
+       release {
+           keyAlias keystoreProperties['keyAlias']
+           keyPassword keystoreProperties['keyPassword']
+           storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+           storePassword keystoreProperties['storePassword']
+       }
+   }
+   buildTypes {
+       release {
+           signingConfig signingConfigs.debug
+       }
+   }
 }
 
 flutter {
@@ -64,9 +79,12 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation(platform('com.google.firebase:firebase-bom:32.2.2'))
+    implementation 'com.google.android.play:integrity:1.2.0'
+    implementation platform('com.google.firebase:firebase-bom:32.3.1')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation("com.google.firebase:firebase-firestore-ktx")
-    implementation('com.google.firebase:firebase-analytics')
     implementation("com.google.firebase:firebase-auth")
-    
+    // implementation("com.google.firebase:firebase-appcheck-playintegrity")
+    // implementation("com.google.firebase:firebase-appcheck-ktx")
+   
 }

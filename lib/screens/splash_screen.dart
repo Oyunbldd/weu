@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -19,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   _navigationtoNextScreen() async {
     await Future.delayed(const Duration(seconds: 1));
-    Get.toNamed('/loginScreen');
+    // Get.toNamed('/loginScreen');
   }
 
   Widget build(BuildContext context) {

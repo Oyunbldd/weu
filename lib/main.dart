@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
+import 'package:weu/repository/authentication_repository.dart';
 
 import 'package:weu/routes.dart';
 import 'package:weu/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)
+      .then(
+    (value) => Get.put(AuthenticationRepository()),
   );
 
   runApp(const MyApp());
@@ -22,7 +24,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'WeU',
-      initialRoute: '/splashScreen',
+      initialRoute: '/loginScreen',
       getPages: appRoutes(),
     );
   }

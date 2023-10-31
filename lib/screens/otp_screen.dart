@@ -1,9 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:pinput/pinput.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:weu/repository/authentication_repository.dart';
 
 class OtpScreen extends StatefulWidget {
   const OtpScreen({super.key});
@@ -13,43 +12,10 @@ class OtpScreen extends StatefulWidget {
 }
 
 class _OtpScreenState extends State<OtpScreen> {
+  final controller = Get.put(AuthenticationRepository());
   final FirebaseAuth auth = FirebaseAuth.instance;
   late String code;
   bool isButtonActive = false;
-  var verificationId = Get.arguments[0];
-
-  _navigationtoNextScreen(String uid, String phoneNumber) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final bool requiredScreen = prefs.getBool('requiredScreen') ?? true;
-
-    if (requiredScreen) {
-      Get.toNamed(
-        '/requiredScreen',
-        arguments: [
-          uid,
-          phoneNumber,
-        ],
-      );
-    } else {
-      LocationPermission permission = await Geolocator.checkPermission();
-      if (LocationPermission.always == permission ||
-          LocationPermission.whileInUse == permission) {
-        Get.toNamed('/mainScreen', arguments: ['allowed']);
-      } else {
-        Get.toNamed('/mainScreen', arguments: ['denied']);
-      }
-    }
-    // await Future.delayed(const Duration(seconds: 1));
-
-    // if (LocationPermission.always == permission ||
-    //     LocationPermission.whileInUse == permission) {
-    //   Get.toNamed('/mainScreen', arguments: ['allowed']);
-    // }
-    // if (LocationPermission.unableToDetermine == permission ||
-    //     LocationPermission.denied == permission) {
-    //   Get.toNamed('/permissionScreen');
-    // }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +76,6 @@ class _OtpScreenState extends State<OtpScreen> {
                     code = value;
                   },
                   androidSmsAutofillMethod: AndroidSmsAutofillMethod.none,
-
                   // controller: pinController,
                 ),
                 const SizedBox(height: 50),
@@ -125,21 +90,8 @@ class _OtpScreenState extends State<OtpScreen> {
                     ),
                     onPressed: !isButtonActive
                         ? null
-                        : () async {
-                            try {
-                              PhoneAuthCredential credential =
-                                  PhoneAuthProvider.credential(
-                                      verificationId: verificationId,
-                                      smsCode: code);
-
-                              UserCredential userData =
-                                  await auth.signInWithCredential(credential);
-                              _navigationtoNextScreen(
-                                userData.user!.uid,
-                                userData.user!.phoneNumber!,
-                              );
-                            } catch (e) {}
-                          },
+                        : () async =>
+                            AuthenticationRepository.instance.verifyOTP(code),
                     child: const Text(
                       "Үргэлжлүүлэх",
                       style: TextStyle(fontSize: 12.5, color: Colors.white),
