@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:pinput/pinput.dart';
 import 'package:weu/repository/authentication_repository.dart';
 
@@ -51,24 +52,20 @@ class _OtpScreenState extends State<OtpScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // const SizedBox(height: 100),
-                // const Text(
-                //   'Ямар код ирсэн бэ?',
-                //   style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-                // ),
                 const SizedBox(height: 50),
-                const Text(
+                Text(
                   'Таньд ирсэн 6 оронтой нэг удаагийн',
-                  style: TextStyle(color: Colors.grey),
+                  style: GoogleFonts.rubik(color: Colors.grey),
                 ),
-                const Text(
+                Text(
                   'нууц кодыг оруулна уу',
-                  style: TextStyle(color: Colors.grey),
+                  style: GoogleFonts.rubik(color: Colors.grey),
                 ),
                 const SizedBox(height: 30),
                 Pinput(
                   length: 6,
                   showCursor: true,
+                  autofocus: true,
                   onCompleted: (pin) => setState(() {
                     isButtonActive = true;
                   }),
@@ -92,9 +89,13 @@ class _OtpScreenState extends State<OtpScreen> {
                         ? null
                         : () async =>
                             AuthenticationRepository.instance.verifyOTP(code),
-                    child: const Text(
+                    child: Text(
                       "Үргэлжлүүлэх",
-                      style: TextStyle(fontSize: 12.5, color: Colors.white),
+                      style: GoogleFonts.rubik(
+                        fontSize: 12.5,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),

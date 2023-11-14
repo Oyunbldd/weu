@@ -2,6 +2,7 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:weu/repository/authentication_repository.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -43,16 +44,17 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const Text(
+                Text(
                   'Таны дугаар хэд вэ?',
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  style: GoogleFonts.rubik(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const SizedBox(height: 15),
-                const Text(
+                Text(
                   'Та доор утасны дугаараа оруулна уу',
-                  style: TextStyle(
-                    color: Colors.grey,
-                  ),
+                  style: GoogleFonts.rubik(color: Colors.grey),
                 ),
                 const SizedBox(height: 30),
                 Row(
@@ -79,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         favorite: const ['+976', 'MN'],
                         showCountryOnly: false,
                         alignLeft: false,
-                        textStyle: const TextStyle(
+                        textStyle: GoogleFonts.rubik(
                           fontSize: 13,
                           fontWeight: FontWeight.bold,
                           color: Colors.black,
@@ -103,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           border: InputBorder.none,
                           hintText: "Утасны дугаар",
                         ),
-                        style: const TextStyle(
+                        style: GoogleFonts.rubik(
                           fontSize: 13,
                           fontWeight: FontWeight.bold,
                         ),
@@ -139,9 +141,13 @@ class _LoginScreenState extends State<LoginScreen> {
                             );
                             Get.toNamed('/otpScreen');
                           },
-                    child: const Text(
+                    child: Text(
                       "Нэвтрэх",
-                      style: TextStyle(fontSize: 12.5, color: Colors.white),
+                      style: GoogleFonts.rubik(
+                        fontSize: 12.5,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 )
