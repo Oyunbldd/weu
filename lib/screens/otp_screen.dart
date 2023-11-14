@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,10 +19,19 @@ class _OtpScreenState extends State<OtpScreen> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   late String code;
   bool isButtonActive = false;
+  Timer? _timer;
+  int remainingSeconds = 1;
+  final time = '00.00'.obs;
+
+  _startTimer(int seconds) {
+    const duration = Duration(seconds: 1);
+    // remain
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         centerTitle: true,
         title: const Text(
@@ -71,6 +82,11 @@ class _OtpScreenState extends State<OtpScreen> {
                   }),
                   onChanged: (value) {
                     code = value;
+                    if (code.length < 6) {
+                      setState(() {
+                        isButtonActive = false;
+                      });
+                    }
                   },
                   androidSmsAutofillMethod: AndroidSmsAutofillMethod.none,
                   // controller: pinController,
@@ -99,6 +115,25 @@ class _OtpScreenState extends State<OtpScreen> {
                     ),
                   ),
                 ),
+                const SizedBox(height: 20),
+                // Center(
+                //   child: 0 > 3
+                //       ? Text(
+                //           "Шинэ код 01:30 минутын дараа авах боломжтой.",
+                //           style: GoogleFonts.rubik(color: Colors.grey),
+                //         )
+                //       : InkWell(
+                //           onTap: () {},
+                //           child: Text(
+                //             "Код дахин авах уу?",
+                //             style: GoogleFonts.rubik(
+                //               color: Colors.red,
+                //               fontSize: 13,
+                //               fontWeight: FontWeight.w700,
+                //             ),
+                //           ),
+                //         ),
+                // ),
               ],
             ),
           ),
