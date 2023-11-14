@@ -67,12 +67,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyBxz1AYyRNNrUfW5dyXNgSgXLLnKSjrXK0',
-    appId: '1:15738567745:ios:58824471f067625287dac0',
+    appId: '1:15738567745:ios:a247f385a0cd810587dac0',
     messagingSenderId: '15738567745',
     projectId: 'weeu-36e39',
     storageBucket: 'weeu-36e39.appspot.com',
     androidClientId: '15738567745-q8ed68oqhm2tica0ri52t5nt7sac572b.apps.googleusercontent.com',
-    iosClientId: '15738567745-jnkfhhm06nla5da2vaf4kagpupghs3ib.apps.googleusercontent.com',
-    iosBundleId: 'com.weeu',
+    iosBundleId: '-',
   );
 }
