@@ -19,13 +19,27 @@ class _OtpScreenState extends State<OtpScreen> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   late String code;
   bool isButtonActive = false;
-  Timer? _timer;
-  int remainingSeconds = 1;
-  final time = '00.00'.obs;
 
-  _startTimer(int seconds) {
-    const duration = Duration(seconds: 1);
-    // remain
+  String phoneNumber = Get.arguments[0];
+
+  int resendTime = 60;
+  late Timer countDownTimer;
+
+  startTimer() {
+    countDownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        resendTime = resendTime - 1;
+      });
+      if (resendTime < 1) {
+        countDownTimer.cancel();
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    startTimer();
+    super.initState();
   }
 
   @override
@@ -116,24 +130,34 @@ class _OtpScreenState extends State<OtpScreen> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                // Center(
-                //   child: 0 > 3
-                //       ? Text(
-                //           "Шинэ код 01:30 минутын дараа авах боломжтой.",
-                //           style: GoogleFonts.rubik(color: Colors.grey),
-                //         )
-                //       : InkWell(
-                //           onTap: () {},
-                //           child: Text(
-                //             "Код дахин авах уу?",
-                //             style: GoogleFonts.rubik(
-                //               color: Colors.red,
-                //               fontSize: 13,
-                //               fontWeight: FontWeight.w700,
-                //             ),
-                //           ),
-                //         ),
-                // ),
+                Center(
+                  child: resendTime > 0
+                      ? Text(
+                          "Шинэ код $resendTime секундын дараа авах боломжтой.",
+                          style: GoogleFonts.rubik(
+                            color: Colors.grey,
+                            fontSize: 12.5,
+                          ),
+                        )
+                      : InkWell(
+                          onTap: () async {
+                            AuthenticationRepository.instance
+                                .phoneAuthentication(phoneNumber);
+                            setState(() {
+                              resendTime = 60;
+                            });
+                            startTimer();
+                          },
+                          child: Text(
+                            "Код дахин авах уу?",
+                            style: GoogleFonts.rubik(
+                              color: Colors.red,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                ),
               ],
             ),
           ),

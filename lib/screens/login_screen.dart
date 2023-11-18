@@ -139,7 +139,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               '$_countryCode ${_phoneController.text}',
                               // _phoneController.text.trim(),
                             );
-                            Get.toNamed('/otpScreen');
+                            Get.toNamed('/otpScreen', arguments: [
+                              '$_countryCode ${_phoneController.text}'
+                            ]);
                           },
                     child: Text(
                       "Нэвтрэх",

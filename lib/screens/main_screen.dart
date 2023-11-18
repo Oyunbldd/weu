@@ -1,3 +1,6 @@
+import 'dart:developer';
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -12,17 +15,50 @@ class MainScreen extends StatefulWidget {
   State<MainScreen> createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   int _currentIndex = 1;
-  var verificationId = Get.arguments[0];
+  late String verificationId;
 
   List<Widget?> body = [
     const ContactView(),
     const HomeView(),
     const ProfileView(),
   ];
+  @override
+  void initState() {
+    checkPermission();
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
 
-  //bustaj orj irsen uyd checkleh
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  checkPermission() async {
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (LocationPermission.always == permission ||
+        LocationPermission.whileInUse == permission) {
+      setState(() {
+        verificationId = "allowed";
+      });
+    }
+    if (LocationPermission.denied == permission) {
+      setState(() {
+        verificationId = "denied";
+      });
+    }
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed) {
+      checkPermission();
+    }
+  }
 
   Widget getPermission() {
     return Container(
@@ -97,7 +133,7 @@ class _MainScreenState extends State<MainScreen> {
           child: WillPopScope(
             onWillPop: () async => false,
             child: Center(
-              child: _currentIndex == 0 && verificationId == 'denied'
+              child: _currentIndex == 1 && verificationId == 'denied'
                   ? getPermission()
                   : body[_currentIndex],
             ),

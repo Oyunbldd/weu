@@ -36,7 +36,7 @@ class AuthenticationRepository extends GetxController {
   _navigationToNextScreen(String uid, String phoneNumber) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final bool requiredScreen = prefs.getBool('requiredScreen') ?? true;
-    print(requiredScreen);
+
     if (requiredScreen) {
       Get.offAll(
         const RequiredScreen(),

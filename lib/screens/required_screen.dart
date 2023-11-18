@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../custom_widgets/stepper.dart' as CustomStepper;
 
@@ -111,22 +112,21 @@ class _RequiredScreenState extends State<RequiredScreen> {
                   ),
                 ),
                 const SizedBox(height: 25),
-                const Text(
-                  'Enable Location Access',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                Text(
+                  'Байршил өгөхийг зөвшөөрөх',
+                  style: GoogleFonts.rubik(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
                 ),
                 const SizedBox(height: 25),
-                const Text(
+                Text(
                   'lorem ipsum  lorem ipisum lorem ipsum',
-                  style: TextStyle(
-                    color: Colors.grey,
-                  ),
+                  style: GoogleFonts.rubik(color: Colors.grey),
                 ),
-                const Text(
+                Text(
                   'lorem ipsum  lorem ip',
-                  style: TextStyle(
-                    color: Colors.grey,
-                  ),
+                  style: GoogleFonts.rubik(color: Colors.grey),
                 ),
               ],
             ),
@@ -143,9 +143,12 @@ class _RequiredScreenState extends State<RequiredScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.max,
               children: [
-                const Text(
+                Text(
                   'Миний нэрийг :',
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                  style: GoogleFonts.rubik(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const SizedBox(height: 20),
                 Container(
@@ -161,7 +164,7 @@ class _RequiredScreenState extends State<RequiredScreen> {
                       border: InputBorder.none,
                       hintText: "Нэр",
                     ),
-                    style: const TextStyle(
+                    style: GoogleFonts.rubik(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
                     ),
@@ -182,23 +185,25 @@ class _RequiredScreenState extends State<RequiredScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.max,
               children: [
-                const Column(
+                Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       'Яаралтай үед холбогдох',
-                      style:
-                          TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                      style: GoogleFonts.rubik(
+                          fontSize: 25, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       'хүний дугаар :',
-                      style:
-                          TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                      style: GoogleFonts.rubik(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 25),
                 Column(
                   children: [
                     DropdownButtonFormField2<String>(
@@ -210,17 +215,19 @@ class _RequiredScreenState extends State<RequiredScreen> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
-                      hint: const Text(
+                      hint: Text(
                         'Таны хэн болох ?',
-                        style: TextStyle(fontSize: 14),
+                        style: GoogleFonts.rubik(fontSize: 15),
                       ),
                       items: selectingTypes
                           .map((item) => DropdownMenuItem<String>(
                                 value: item,
                                 child: Text(
                                   item,
-                                  style: const TextStyle(
-                                    fontSize: 14,
+                                  style: GoogleFonts.rubik(
+                                    fontSize: 12.5,
+                                    fontWeight: FontWeight.bold,
+                                    // color: Colors.grey,
                                   ),
                                 ),
                               ))
@@ -258,7 +265,7 @@ class _RequiredScreenState extends State<RequiredScreen> {
                     const SizedBox(height: 15),
                     Container(
                       width: MediaQuery.of(context).size.width,
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
                       decoration: BoxDecoration(
                         border: Border.all(
                           width: 0.25,
@@ -272,7 +279,7 @@ class _RequiredScreenState extends State<RequiredScreen> {
                           border: InputBorder.none,
                           hintText: "Хадгалах нэр",
                         ),
-                        style: const TextStyle(
+                        style: GoogleFonts.rubik(
                           fontSize: 12.5,
                           fontWeight: FontWeight.bold,
                         ),
@@ -281,7 +288,7 @@ class _RequiredScreenState extends State<RequiredScreen> {
                     const SizedBox(height: 15),
                     Container(
                       width: MediaQuery.of(context).size.width,
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
                       decoration: BoxDecoration(
                         border: Border.all(
                           width: 0.25,
@@ -296,7 +303,7 @@ class _RequiredScreenState extends State<RequiredScreen> {
                           border: InputBorder.none,
                           hintText: "Утасны дугаар",
                         ),
-                        style: const TextStyle(
+                        style: GoogleFonts.rubik(
                           fontSize: 12.5,
                           fontWeight: FontWeight.bold,
                         ),
@@ -383,7 +390,7 @@ class _RequiredScreenState extends State<RequiredScreen> {
                               child: Center(
                                 child: Text(
                                   'Үргэлжлүүлэх',
-                                  style: TextStyle(
+                                  style: GoogleFonts.rubik(
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold,
                                     color: isButtonActive
@@ -403,11 +410,11 @@ class _RequiredScreenState extends State<RequiredScreen> {
                                     currentStep -= currentStep == 1 ? 0 : 1;
                                     isButtonActive = true;
                                   }),
-                                  child: const SizedBox(
+                                  child: SizedBox(
                                     child: Center(
                                       child: Text(
                                         'Буцах',
-                                        style: TextStyle(
+                                        style: GoogleFonts.rubik(
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.grey,
