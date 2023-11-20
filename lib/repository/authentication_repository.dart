@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -34,10 +37,14 @@ class AuthenticationRepository extends GetxController {
 
 //Detector of what screen calling next
   _navigationToNextScreen(String uid, String phoneNumber) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final bool requiredScreen = prefs.getBool('requiredScreen') ?? true;
+    // final SharedPreferences prefs = await SharedPreferences.getInstance();
+    // final bool requiredScreen = prefs.getBool('requiredScreen') ?? true;
+    final data = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(phoneNumber)
+        .get();
 
-    if (requiredScreen) {
+    if (data.data() == null) {
       Get.offAll(
         const RequiredScreen(),
         arguments: [
@@ -48,10 +55,15 @@ class AuthenticationRepository extends GetxController {
     } else {
       _checkPermission();
     }
+    // _checkPermission();
   }
 
   _setInitialScreen(User? user) {
-    user == null ? Get.offAll(() => const LoginScreen()) : _checkPermission();
+    // user == null ? Get.offAll(() => const LoginScreen()) : _checkPermission();
+    user == null
+        ? Get.offAll(() => const LoginScreen())
+        : _navigationToNextScreen(
+            firebaseUser.value!.uid, firebaseUser.value!.phoneNumber!);
   }
 
   //Main Function

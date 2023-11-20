@@ -27,6 +27,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   @override
   void initState() {
     checkPermission();
+
     super.initState();
     WidgetsBinding.instance.addObserver(this);
   }
