@@ -1,9 +1,5 @@
-import 'dart:developer';
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:get/get.dart';
 import 'package:weu/views/contact_view.dart';
 import 'package:weu/views/home_view.dart';
 import 'package:weu/views/profile_view.dart';

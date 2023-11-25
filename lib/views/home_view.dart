@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jumping_dot/jumping_dot.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 
@@ -20,35 +22,33 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   final storage = FirebaseStorage.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
+  Position? location;
 
   int _count = 3;
   double _width = 175, _heigth = 175;
   bool deleteDoc = false;
 
-  Future<Position?> _determinePosition() async {
-    // bool serviceEnabled;
-    // LocationPermission permission;
+  final Completer<GoogleMapController> _controller =
+      Completer<GoogleMapController>();
 
-    // serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    // if (!serviceEnabled) {
-    //   return Future.error('Location services are disabled.');
-    // }
+  CameraPosition? _position;
 
-    // permission = await Geolocator.checkPermission();
-    // if (permission == LocationPermission.denied) {
-    //   permission = await Geolocator.requestPermission();
-    //   if (permission == LocationPermission.denied) {
-    //     await Geolocator.openAppSettings();
-    //     // return Future.error('Location permissions are denied');
-    //   }
-    // }
-
-    // if (permission == LocationPermission.deniedForever) {
-    //   return null;
-    // }
-    return await Geolocator.getCurrentPosition(
+  _determinePosition() async {
+    location = await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high,
     );
+    setState(() {
+      _position = CameraPosition(
+        target: LatLng(location!.latitude, location!.longitude),
+        zoom: 20.0,
+      );
+    });
+  }
+
+  @override
+  void initState() {
+    _determinePosition();
+    super.initState();
   }
 
   Future _showDialog() {
@@ -204,108 +204,131 @@ class _HomeViewState extends State<HomeView> {
       child: Container(
         width: double.infinity,
         color: Colors.white,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Stack(
+          alignment: Alignment.center,
           children: [
-            Text(
-              'Танд тусламж',
-              style: GoogleFonts.rubik(
-                textStyle: TextStyle(
-                  fontSize: 21,
-                  fontWeight: FontWeight.w600,
-                  color: _count == 0 ? Colors.white : Colors.black,
-                ),
-              ),
-            ),
-            Text(
-              'хэрэгтэй байна уу?',
-              style: GoogleFonts.rubik(
-                textStyle: TextStyle(
-                  fontSize: 21,
-                  fontWeight: FontWeight.w600,
-                  color: _count == 0 ? Colors.white : Colors.black,
-                ),
-              ),
-            ),
-            const SizedBox(height: 20),
+            location != null
+                ? Expanded(
+                    child: GoogleMap(
+                      mapType: MapType.satellite,
+                      initialCameraPosition: _position!,
+                      zoomControlsEnabled: false,
+                      onMapCreated: (GoogleMapController controller) {
+                        _controller.complete(controller);
+                      },
+                    ),
+                  )
+                : SizedBox(),
             Container(
-              height: 250,
-              width: 250,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(150),
-                color: Colors.red.withOpacity(0.75),
-              ),
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  AnimatedContainer(
-                    width: _width,
-                    height: _heigth,
-                    duration: const Duration(milliseconds: 250),
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor: const MaterialStatePropertyAll(
-                          Colors.white,
-                        ),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(_width / 2),
+              color: Colors.white.withOpacity(0.75),
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Танд тусламж',
+                  style: GoogleFonts.rubik(
+                    textStyle: TextStyle(
+                      fontSize: 21,
+                      fontWeight: FontWeight.w600,
+                      color: _count == 0 ? Colors.white : Colors.black,
+                    ),
+                  ),
+                ),
+                Text(
+                  'хэрэгтэй байна уу?',
+                  style: GoogleFonts.rubik(
+                    textStyle: TextStyle(
+                      fontSize: 21,
+                      fontWeight: FontWeight.w600,
+                      color: _count == 0 ? Colors.white : Colors.black,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Container(
+                  height: 250,
+                  width: 250,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(150),
+                    color: Colors.red.withOpacity(0.75),
+                  ),
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      AnimatedContainer(
+                        width: _width,
+                        height: _heigth,
+                        duration: const Duration(milliseconds: 250),
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor: const MaterialStatePropertyAll(
+                              Colors.white,
+                            ),
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(_width / 2),
+                              ),
+                            ),
+                          ),
+                          onPressed: () async {
+                            setState(() {
+                              _width = _width + 25;
+                              _heigth = _heigth + 25;
+                              _count -= 1;
+                            });
+
+                            if (_count == 0) {
+                              _showDialog();
+
+                              if (location != null) {
+                                final data = {
+                                  "longitude": location!.longitude,
+                                  "latitue": location!.latitude
+                                };
+                                firestore
+                                    .collection('locations')
+                                    .add(data)
+                                    .then(
+                                  (DocumentReference value) {
+                                    // If user clicking cancelled button delete data from db
+                                    if (deleteDoc) {
+                                      firestore
+                                          .collection('locations')
+                                          .doc(value.id)
+                                          .delete();
+                                      setState(() {
+                                        deleteDoc = false;
+                                      });
+                                    }
+                                  },
+                                );
+                              }
+                            }
+                          },
+                          child: Icon(
+                            Icons.touch_app,
+                            color: Colors.red.withOpacity(0.75),
+                            size: 50,
                           ),
                         ),
                       ),
-                      onPressed: () async {
-                        setState(() {
-                          _width = _width + 25;
-                          _heigth = _heigth + 25;
-                          _count -= 1;
-                        });
-
-                        if (_count == 0) {
-                          _showDialog();
-                          Position? location = await _determinePosition();
-                          if (location != null) {
-                            final data = {
-                              "longitude": location.longitude,
-                              "latitue": location.latitude
-                            };
-                            firestore.collection('locations').add(data).then(
-                              (DocumentReference value) {
-                                // If user clicking cancelled button delete data from db
-                                if (deleteDoc) {
-                                  firestore
-                                      .collection('locations')
-                                      .doc(value.id)
-                                      .delete();
-                                  setState(() {
-                                    deleteDoc = false;
-                                  });
-                                }
-                              },
-                            );
-                          }
-                        }
-                      },
-                      child: Icon(
-                        Icons.touch_app,
-                        color: Colors.red.withOpacity(0.75),
-                        size: 50,
-                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  'Та $_count удаа товшоорой !',
+                  style: GoogleFonts.rubik(
+                    textStyle: TextStyle(
+                      fontSize: 17.5,
+                      fontWeight: FontWeight.w600,
+                      color: _count == 0 ? Colors.white : Colors.black,
                     ),
                   ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 20),
-            Text(
-              'Та $_count удаа товшоорой !',
-              style: GoogleFonts.rubik(
-                textStyle: TextStyle(
-                  fontSize: 17.5,
-                  fontWeight: FontWeight.w600,
-                  color: _count == 0 ? Colors.white : Colors.black,
                 ),
-              ),
+              ],
             ),
           ],
         ),

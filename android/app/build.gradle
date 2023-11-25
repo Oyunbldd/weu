@@ -52,7 +52,7 @@ android {
 
     defaultConfig {
         applicationId "com.weu.app"
-        minSdkVersion 19
+        minSdkVersion 20
         multiDexEnabled true
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()

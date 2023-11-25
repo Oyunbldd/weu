@@ -31,6 +31,7 @@ dependencies:
   cool_alert: ^2.0.1
   google_fonts: ^6.1.0
   firebase_app_check: ^0.2.1+4
+  google_maps_flutter: ^2.5.0
 
 dev_dependencies:
   flutter_test:
